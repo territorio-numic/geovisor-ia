@@ -14,9 +14,9 @@ format:
     code-line-numbers: true
     scrollable: false
     center: false
-    width: 1600
-    height: 900
-    margin: 0.06
+    width: 1280
+    height: 720
+    margin: 0.04
     min-scale: 0.2
     max-scale: 2.0
     footer: "Curso NUMIC: Geovisores Web con R + Quarto + IA | <a href='geovisor-ia_report.html' style='color:#f77f00;font-weight:bold;'>📘 Abrir Manual del Curso</a> · <a href='index.html' style='color:#93c5fd;'>Inicio</a>"
@@ -33,59 +33,77 @@ execute:
   font-size: 25px !important;
 }
 .reveal .slides section {
-  padding-top: 0.2rem !important;
+  padding-top: 0.15rem !important;
 }
 .reveal h1 {
-  font-size: 1.95em !important;
+  font-size: 2.0em !important;
   line-height: 1.15 !important;
   margin-bottom: 0.35em !important;
 }
 .reveal h2 {
-  font-size: 1.42em !important;
-  line-height: 1.2 !important;
-  margin-bottom: 0.45em !important;
-  border-bottom: 2px solid rgba(247, 127, 0, 0.55);
-  padding-bottom: 0.18em;
+  font-size: 1.38em !important;
+  line-height: 1.18 !important;
+  margin-bottom: 0.4em !important;
+  border-bottom: 2px solid rgba(247, 127, 0, 0.6);
+  padding-bottom: 0.16em;
 }
 .reveal h3 {
-  font-size: 1.12em !important;
-  margin-bottom: 0.28em !important;
+  font-size: 1.08em !important;
+  margin-bottom: 0.25em !important;
   color: #93c5fd !important;
 }
 .reveal p, .reveal li {
-  font-size: 0.92em !important;
-  line-height: 1.38 !important;
-  margin-bottom: 0.32em !important;
+  font-size: 0.88em !important;
+  line-height: 1.36 !important;
+  margin-bottom: 0.28em !important;
 }
 .reveal ul, .reveal ol {
-  margin-bottom: 0.45em !important;
+  margin-bottom: 0.4em !important;
 }
 .reveal table {
-  font-size: 0.80em !important;
-  margin: 0.45em auto !important;
+  font-size: 0.78em !important;
+  margin: 0.4em auto !important;
   width: 100% !important;
 }
 .reveal table th, .reveal table td {
-  padding: 0.38em 0.65em !important;
-  line-height: 1.3 !important;
+  padding: 0.36em 0.55em !important;
+  line-height: 1.28 !important;
+}
+.reveal div.sourceCode {
+  margin: 0.45em 0 !important;
+  border: 1px solid rgba(148, 163, 184, 0.32) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4) !important;
 }
 .reveal pre {
-  margin: 0.45em 0 !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.35) !important;
+  width: 100% !important;
+  margin: 0 !important;
 }
 .reveal pre code {
-  font-size: 0.76em !important;
-  line-height: 1.32 !important;
+  font-size: 0.90em !important;
+  line-height: 1.34 !important;
   max-height: 540px !important;
-  padding: 0.75em 1em !important;
+  padding: 0.85em 1.05em !important;
 }
 .reveal .callout {
-  font-size: 0.86em !important;
-  margin-top: 0.45em !important;
-  margin-bottom: 0.45em !important;
+  font-size: 0.84em !important;
+  margin-top: 0.4em !important;
+  margin-bottom: 0.4em !important;
 }
 .reveal .callout .callout-body {
-  padding: 0.45em 0.8em !important;
+  padding: 0.4em 0.75em !important;
+}
+.reveal .mermaid svg {
+  max-width: 100% !important;
+  height: auto !important;
+}
+.takeaway-pill {
+  background: rgba(247, 127, 0, 0.14);
+  border-left: 4px solid #f77f00;
+  padding: 0.45em 0.85em;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.84em;
+  margin-top: 0.45em;
 }
 </style>
 ```
@@ -110,8 +128,8 @@ La IA escribe código R y HTML en segundos, **pero no sabe geografía ni diseño
 
 Quien domina conceptos como **`EPSG:32719`**, **interpolación areal**, **ceros estructurales**, **coropletas** y **puntajes Z** puede darle instrucciones exactas a la IA y construir un geovisor profesional sin romper el código.
 :::
-<p style="margin-top:0.9rem;">
-  <a href="geovisor-ia_report.html" style="background:#f77f00;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;font-size:0.88em;">📘 Ir al Manual con Geovisor de los 27 Barrios en Vivo</a>
+<p style="margin-top:0.85rem;">
+  <a href="geovisor-ia_report.html" style="background:#f77f00;color:#fff;padding:11px 18px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;font-size:0.86em;">📘 Ir al Manual con Geovisor de los 27 Barrios en Vivo</a>
 </p>
 :::
 :::
@@ -166,38 +184,45 @@ Un **Sistema de Información Geográfica (SIG)** une una **tabla de atributos** 
 
 ## 1.3. Sistemas de Coordenadas (CRS) y Códigos `EPSG`
 
+::: {.columns}
+::: {.column width="50%"}
 ::: {.callout-important}
-### El error #1 al programar mapas con IA: confundir grados con metros
+### El error #1 con IA: confundir grados con metros
 :::
 
-| Código EPSG | Nombre Técnico | Unidad | ¿Para qué se DEBE usar en el código? |
-| :--- | :--- | :---: | :--- |
-| **`EPSG:32719`** | **WGS 84 / UTM Huso 19S** *(Proyectado)* | **Metros ($\text{m}$)** | **Cálculos geométricos y físicos:** calcular áreas en $\text{m}^2$ o hectáreas (`st_area()`), densidad ($\text{hab/ha}$), intersecciones (`st_intersection()`) y vecino más cercano (`st_nearest_feature()`). |
-| **`EPSG:4326`** | **WGS 84 Geográfico** *(Esférico)* | **Grados ($^\circ$)** | **Visualización web interactiva:** entregar las capas a `mapgl::maplibre()` o `leaflet()`, que exigen latitud/longitud en `EPSG:4326`. |
+| Código EPSG | Unidad | Uso obligatorio |
+| :--- | :---: | :--- |
+| **`EPSG:32719`** *(UTM 19S)* | **Metros ($\text{m}$)** | Áreas (`st_area()`), densidad ($\text{hab/ha}$), intersecciones y vecino más cercano. |
+| **`EPSG:4326`** *(WGS 84)* | **Grados ($^\circ$)** | Entregar capas finales al visor WebGL (`mapgl::maplibre()`). |
+:::
 
+::: {.column width="50%"}
 ```r
-# Flujo correcto: proyectar a metros (32719) para medir -> transformar a grados (4326) para mapear
+# Proyectar a metros (32719) para calcular
+# y luego volver a grados (4326) para mapear
 censo_stgo_utm <- censo_raw |>
   filter(cut == 13101) |>
   st_as_sf(crs = 4326) |>
   st_transform(32719) |>
   st_make_valid() |>
   mutate(
-    area_hectareas = as.numeric(st_area(shape)) / 10000,
-    densidad_mzn   = n_per / area_hectareas
+    area_ha  = as.numeric(st_area(shape)) / 10000,
+    dens_mzn = n_per / area_ha
   )
 ```
+:::
+:::
 
 ---
 
 ## 1.4. Cuatro Operaciones Topológicas Esenciales
 
-Cuando cruzamos fuentes distintas en la comuna de Santiago (Censo 2024, 27 Barrios Municipales, CIT 2017 y Veredas SIEDU 2018), los polígonos no calzan exactamente. Debes indicarle a la IA cuál de estas 4 operaciones aplicar:
+Cuando cruzamos fuentes distintas en la comuna de Santiago (Censo 2024, 27 Barrios Municipales, CIT 2017 y Veredas SIEDU 2018), los polígonos no calzan exactamente. Debes indicarle a la IA cuál aplicar:
 
 1. **Reparación Topológica (`st_make_valid()`):** Corrige polígonos con auto-intersecciones o anillos abiertos antes de cualquier cruce.
-2. **Punto en Superficie (`st_point_on_surface()`):** A diferencia del centroide geométrico (`st_centroid()`), garantiza que el punto representativo de una manzana en forma de "L" o "U" caiga siempre **dentro** de la manzana al asignarle uno de los **27 barrios de Santiago**.
-3. **Disolución Espacial (`st_union()`):** Permite fusionar polígonos de barrios contiguos en macro-zonas cuando el análisis territorial lo requiere (`group_by(zona) |> summarise(geometry = st_union(geometry))`).
-4. **Interpolación Areal Ponderada (`st_intersection()` + `st_area()`):** Cuando las manzanas SIEDU 2018 no coinciden con las `1.711` manzanas del Censo 2024, **las manzanas censales mandan**: cortamos los fragmentos de vereda dentro de cada manzana censal y promediamos su nota ponderando por el área de cada fragmento.
+2. **Punto en Superficie (`st_point_on_surface()`):** A diferencia del centroide geométrico (`st_centroid()`), garantiza que el punto de una manzana en forma de "L" o "U" caiga siempre **dentro** al asignarle uno de los **27 barrios de Santiago**.
+3. **Disolución Espacial (`st_union()`):** Permite fusionar polígonos de barrios contiguos en macro-zonas cuando el análisis lo requiere (`group_by(zona) |> summarise(geometry = st_union(geometry))`).
+4. **Interpolación Areal Ponderada (`st_intersection()` + `st_area()`):** Cuando las manzanas SIEDU 2018 no coinciden con las `1.711` manzanas del Censo 2024, **las manzanas censales mandan**: cortamos los fragmentos y promediamos ponderando por su superficie.
 
 ---
 
@@ -210,8 +235,7 @@ Siguiendo a **Bertin** y **ColorBrewer**, al pedirle un mapa a la IA debemos esp
 - **Dirección unificada en el Heatmap Multidimensional de los 27 Barrios:**
   - En una matriz de criticidad donde **Rojo = Mayor urgencia** y **Azul = Menor urgencia**, una variable positiva como **Años de Escolaridad** debe **invertir su signo estandarizado (`-z_score`)** para no pintar de rojo de alerta a los barrios con mayor educación (como Santa Lucía Forestal o San Borja).
 - **Cortes por Percentiles (`P2–P50–P98`) vs. Rango Fijo (`0–100%`):**
-  - Percentiles (`0.02, 0.50, 0.98`) evitan que un valor extremo apague el contraste entre las `1.711` manzanas.
-  - Rango fijo (`c(0, 50, 100)`) se utiliza cuando se requiere mostrar la escala teórica completa de `0%` a `100%`.
+  - Percentiles (`0.02, 0.50, 0.98`) evitan que un valor extremo apague el contraste entre las `1.711` manzanas; el rango fijo (`c(0, 50, 100)`) muestra la escala teórica completa.
 
 ---
 
@@ -225,10 +249,10 @@ Diccionario de Jerga SIG, WebGL y Quarto
 
 | Concepto / Término | Significado Técnico | Instrucción precisa para la IA |
 | :--- | :--- | :--- |
-| **Tooltip HTML** | Cuadro emergente al pasar el cursor (`hover`) sobre una manzana o barra. | *"Crea una columna `tooltip_html` con CSS inline que muestre Barrio, ID de manzana, población, densidad (`hab/ha`), valor de la manzana y brecha con su Barrio y con Santiago."* |
-| **Jerarquía de Capas (`Layers`)** | Orden de apilamiento visual en `MapLibre` (de abajo hacia arriba). | *"Apila: 1) `add_fill_layer` (`1.711` manzanas), 2) `add_line_layer` blanco (halo perimetral), 3) `add_line_layer` oscuro (`27` barrios), 4) `add_symbol_layer` (nombres de los `27` barrios con halo blanco)."* |
-| **Cero Estructural vs. `NA`** | Manzanas no residenciales (`n_per == 0`: `419` manzanas en Santiago como Parque O'Higgins, Quinta Normal o comercio exclusivo). | *"Asigna `NA_real_` cuando `n_per == 0`. Impútalo con `st_nearest_feature()` para no dejar huecos en el mapa, pero promedia por barrio filtrando `manzana_habitada == TRUE`."* |
-| **Semáforo Estadístico (`styleInterval`)** | Coloreo condicional de celdas en `DT::datatable` para los 27 barrios según umbrales de la distribución comunal. | *"Colorea en ámbar (`#fff3cd`) las celdas que superen la Media Comunal y en rojo (`#f8d7da`) las que superen $\text{Media} + 0,5\,\text{DE}$."* |
+| **Tooltip HTML** | Cuadro emergente al pasar el cursor (`hover`) sobre una manzana o barra. | *"Crea `tooltip_html` con CSS inline que muestre Barrio, ID de manzana, población, densidad (`hab/ha`), valor y brecha con Barrio y Santiago."* |
+| **Jerarquía de Capas (`Layers`)** | Orden de apilamiento visual en `MapLibre` (de abajo hacia arriba). | *"Apila: 1) `add_fill_layer` (`1.711` manzanas), 2) `add_line_layer` blanco (halo), 3) `add_line_layer` oscuro (`27` barrios), 4) `add_symbol_layer` (nombres)."* |
+| **Cero Estructural vs. `NA`** | Manzanas no residenciales (`n_per == 0`: `419` manzanas como Parque O'Higgins o comercio exclusivo). | *"Asigna `NA_real_` cuando `n_per == 0`. Impútalo con `st_nearest_feature()` para el mapa, pero promedia por barrio filtrando `manzana_habitada == TRUE`."* |
+| **Semáforo Estadístico (`styleInterval`)** | Coloreo condicional de celdas en `DT::datatable` según umbrales de la distribución comunal. | *"Colorea en ámbar (`#fff3cd`) sobre la Media Comunal y en rojo (`#f8d7da`) sobre $\text{Media} + 0,5\,\text{DE}$."* |
 
 ---
 
@@ -240,7 +264,7 @@ Arquitectura Paso a Paso en R
 
 ## 3.1. Cruce Espacial de las 1.711 Manzanas con los 27 Barrios
 
-¿Cómo asignamos cada una de las `1.711` manzanas del Censo 2024 a uno de los **27 barrios oficiales de Santiago (`LIMITE_BARRIOS.shp`)** sin errores de borde?
+¿Cómo asignamos cada una de las `1.711` manzanas del Censo 2024 a uno de los **27 barrios oficiales de Santiago** sin errores de borde?
 
 ```r
 # 1. Punto interior garantizado (evita fallos en manzanas con forma de L o U)
@@ -248,12 +272,10 @@ centroides_mzn <- st_point_on_surface(censo_stgo_utm |> select(cod_mzn))
 
 # 2. Unión espacial por intersección en EPSG:32719
 join_barrios <- st_join(
-  centroides_mzn,
-  barrios_stgo_utm |> select(barrio = BARRIO, agrp = AGRP),
-  join = st_intersects
+  centroides_mzn, barrios_stgo_utm |> select(barrio = BARRIO), join = st_intersects
 )
 
-# 3. Rescate por vecino más cercano si algún borde cae exactamente sobre el eje de una avenida
+# 3. Rescate por vecino más cercano si el borde cae sobre el eje de una avenida
 if (any(is.na(join_barrios$barrio))) {
   idx_na <- which(is.na(join_barrios$barrio))
   near_b <- st_nearest_feature(centroides_mzn[idx_na, ], barrios_stgo_utm)
@@ -261,89 +283,91 @@ if (any(is.na(join_barrios$barrio))) {
 }
 ```
 
+<div class="takeaway-pill">
+**Clave metodológica:** Trabajar sobre puntos interiores en `EPSG:32719` + rescate con `st_nearest_feature()` garantiza **`0` manzanas sin barrio** y evita duplicar una manzana cuando toca dos polígonos vecinos.
+</div>
+
 ---
 
 ## 3.2. Interpolación Areal de Veredas SIEDU sobre Manzanas 2024
 
-¿Cómo transferimos el estado de veredas (`LB2018_IS40_Calidad_Veredas`, medido en 2018) a las `1.711` manzanas del **Censo 2024** cuando sus geometrías difieren? **"Las manzanas censales mandan"**:
+¿Cómo transferimos el estado de veredas (`LB2018_IS40_Calidad_Veredas`, 2018) a las `1.711` manzanas del **Censo 2024** cuando sus límites difieren?
 
 ```r
-# 1. Intersección geométrica en metros (EPSG:32719)
+# 1. Intersección geométrica en metros (EPSG:32719): las manzanas censales mandan
 veredas_interseccion <- suppressWarnings(
-  st_intersection(
-    swalk_stgo_utm |> select(qswalk),   # Puntaje 1 (Excelente) a 5 (No existe)
-    censo_stgo_utm |> select(cod_mzn)   # Geometría maestra Censo 2024 (1.711 manzanas)
-  )
+  st_intersection(swalk_stgo_utm |> select(qswalk), censo_stgo_utm |> select(cod_mzn))
 ) |>
   mutate(area_fragmento = as.numeric(st_area(Shape))) |>
   st_drop_geometry()
 
-# 2. Promedio ponderado por área dentro de cada manzana censal y re-escalamiento 0-100%
+# 2. Promedio ponderado por área dentro de cada manzana y escala 0–100%
 veredas_mzn_ponderada <- veredas_interseccion |>
   group_by(cod_mzn) |>
   summarise(
-    qswalk_pond = sum(qswalk * area_fragmento, na.rm = TRUE) / sum(area_fragmento, na.rm = TRUE),
+    qswalk_pond = sum(qswalk * area_fragmento) / sum(area_fragmento),
     .groups = "drop"
   ) |>
   mutate(ind_deterioro_veredas = ((qswalk_pond - 1) / 4) * 100)
 ```
 
+<div class="takeaway-pill">
+**Por qué ponderar por área:** Si una manzana del Censo 2024 abarca un 80% de vereda *Buena* (`2`) y un 20% de vereda *Mala* (`4`), su puntaje compuesto refleja la superficie real (`2,4`), no un promedio simple distorsionado.
+</div>
+
 ---
 
 ## 3.3. Función Constructora de Mapas (`crear_mapa_manzana_stgo`)
 
-En vez de copiar y pegar 8 veces el código de `maplibre()`, encapsulamos el diseño en una función reutilizable para las `1.711` manzanas y `27` barrios con soporte para unidades (`%` o `años`), rangos fijos o por cuantiles, y tooltip estandarizado:
+Encapsulamos el geovisor en una función reutilizable para las `1.711` manzanas y `27` barrios con soporte para unidades (`%` o `años`) y rangos flexibles:
 
 ```r
 crear_mapa_manzana_stgo <- function(
-    datos_sf, barrios_sf, var_col, var_barrio_col, prom_santiago_val,
+    datos_sf, barrios_sf, var_col, var_barrio_col, prom_stgo_val,
     titulo_leyenda, subtitulo_var, paleta_colores,
-    sufijo_unidad = "%", sufijo_brecha = " pp", rango_fijo = NULL, lineas_extra_fn = NULL
+    sufijo_unidad = "%", rango_fijo = NULL
 ) {
-  # 1. Cortes de leyenda (fijos ej. 0-100% en Seguridad, o percentiles P2-P50-P98)
   cortes <- if (!is.null(rango_fijo)) rango_fijo else
     as.numeric(quantile(datos_sf[[var_col]], probs = c(0.02, 0.50, 0.98), na.rm = TRUE))
 
-  # 2. Construcción vectorizada del Tooltip HTML con str_to_title(barrio) y brechas
-  barrio_titulo_inicial <- str_to_title(datos_sf$barrio)
-  # ... [arma datos_sf$tooltip_html] ...
+  barrio_titulo <- str_to_title(datos_sf$barrio) # Mayúscula inicial en tooltip
 
-  # 3. Apilamiento de capas WebGL en MapLibre sobre los 27 barrios de Santiago
   maplibre(bounds = barrios_sf, style = carto_style("positron")) |>
-    add_fill_layer(id = "mzn_fill_layer", source = datos_sf, tooltip = "tooltip_html", ...) |>
-    add_line_layer(id = "barrios_outline", source = barrios_sf, line_color = "#1e293b", line_width = 1.2) |>
-    add_symbol_layer(id = "barrios_labels", source = barrios_sf, text_field = c("get", "BARRIO"), ...)
+    add_fill_layer(id = "mzn_fill_layer", source = datos_sf, tooltip = "tooltip_html") |>
+    add_line_layer(id = "barrios_outline", source = barrios_sf, line_color = "#1e293b") |>
+    add_symbol_layer(id = "barrios_labels", source = barrios_sf, text_field = c("get", "BARRIO"))
 }
 ```
+
+<div class="takeaway-pill">
+**Principio DRY (*Don't Repeat Yourself*):** Parametrizar `maplibre()` en una única función impide inconsistencias entre las 8 dimensiones y facilita cambiar el diseño del `tooltip_html` en un solo lugar.
+</div>
 
 ---
 
 ## 3.4. Síntesis Multidimensional de los 27 Barrios (`Heatmap Z-Score`)
 
-Para comparar en una sola matriz los **27 barrios de Santiago** en variables medidas en **años** (`Escolaridad`) y en **porcentajes** (`Déficit Vivienda`, `Desocupación`, `Infraestructura`), estandarizamos cada columna en **Puntajes Z ($Z$-scores)**:
+Para comparar los **27 barrios de Santiago** en variables medidas en **años** (`Escolaridad`) y en **porcentajes**, estandarizamos cada columna en **Puntajes Z ($Z$-scores)**:
 
 ```r
 df_heatmap <- resumen_barrios |>
-  select(
-    barrio,
-    `1. Escolaridad (años)` = prom_escolaridad18,
-    `2. Déficit Vivienda`   = pct_deficit_cuant,
-    `3. Disconfort Amb.`    = ind_disconfort_amb,
-    `4. Exposición Delito`  = ind_inseguridad_del,
-    `5. Desocupación`       = tasa_desocupacion,
-    `6. Migración`          = pct_inmigrantes,
-    `7. Envejecimiento`     = pct_adulto_mayor,
-    `8. Infraestructura`    = ind_deterioro_veredas
-  ) |>
+  select(barrio, `1. Escolaridad (años)` = prom_escolaridad18,
+         `2. Déficit Vivienda` = pct_deficit_cuant, `3. Disconfort Amb.` = ind_disconfort_amb,
+         `4. Exposición Delito` = ind_inseguridad_del, `5. Desocupación` = tasa_desocupacion,
+         `6. Migración` = pct_inmigrantes, `7. Envejecimiento` = pct_adulto_mayor,
+         `8. Infraestructura` = ind_deterioro_veredas) |>
   pivot_longer(cols = -barrio, names_to = "dimension", values_to = "valor_raw") |>
   group_by(dimension) |>
   mutate(
     z_raw   = as.numeric(scale(valor_raw)),
-    # Invertimos solo Escolaridad para que Rojo (+Z) sea siempre MAYOR criticidad
     z_score = if_else(dimension == "1. Escolaridad (años)", -z_raw, z_raw),
     z_clip  = pmin(pmax(z_score, -2), 2)
   )
 ```
+
+<div class="takeaway-pill">
+**Coherencia visual:** Invertir el signo solo en Escolaridad (`-z_raw`) hace que el **rojo (`+Z`)** signifique siempre **mayor criticidad** (menos años de estudio o mayor déficit), mientras el hover muestra los valores reales (`años` o `%`).
+</div>
 
 ---
 
@@ -356,7 +380,7 @@ Cómo pedirle cambios precisos a la IA y publicar en GitHub Pages
 ## 4.1. Anatomía de un Buen Prompt Territorial
 
 ::: {.columns}
-::: {.column width="48%"}
+::: {.column width="47%"}
 ### ❌ Lo que NO debes pedir
 - *"Hazme un mapa de Santiago con datos del censo."*
 - *"Ponle colores bonitos al mapa de medioambiente."*
@@ -364,7 +388,7 @@ Cómo pedirle cambios precisos a la IA y publicar en GitHub Pages
 - *"Sube la carpeta a mi GitHub."* *(¡Riesgo de subir gigabytes de datos privados o romper el límite de 100 MB!)*
 :::
 
-::: {.column width="52%"}
+::: {.column width="53%"}
 ### ✅ Lo que SÍ debes especificar
 1. **Geometría maestra y `EPSG`:** *"Censo 2024 manda (`1.711` manzanas); calcula áreas e intersecciones en `EPSG:32719` y mapea en `EPSG:4326` con los `27` barrios de `LIMITE_BARRIOS.shp`."*
 2. **Denominadores y ceros:** *"Calcula tasas sobre `n_per`, `n_vp`, `n_hog` o `n_pea`; imputa `n_per == 0` solo para el mapa y exclúyelos del promedio de los 27 barrios."*

@@ -223,59 +223,77 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
   font-size: 25px !important;
 }
 .reveal .slides section {
-  padding-top: 0.2rem !important;
+  padding-top: 0.15rem !important;
 }
 .reveal h1 {
-  font-size: 1.95em !important;
+  font-size: 2.0em !important;
   line-height: 1.15 !important;
   margin-bottom: 0.35em !important;
 }
 .reveal h2 {
-  font-size: 1.42em !important;
-  line-height: 1.2 !important;
-  margin-bottom: 0.45em !important;
-  border-bottom: 2px solid rgba(247, 127, 0, 0.55);
-  padding-bottom: 0.18em;
+  font-size: 1.38em !important;
+  line-height: 1.18 !important;
+  margin-bottom: 0.4em !important;
+  border-bottom: 2px solid rgba(247, 127, 0, 0.6);
+  padding-bottom: 0.16em;
 }
 .reveal h3 {
-  font-size: 1.12em !important;
-  margin-bottom: 0.28em !important;
+  font-size: 1.08em !important;
+  margin-bottom: 0.25em !important;
   color: #93c5fd !important;
 }
 .reveal p, .reveal li {
-  font-size: 0.92em !important;
-  line-height: 1.38 !important;
-  margin-bottom: 0.32em !important;
+  font-size: 0.88em !important;
+  line-height: 1.36 !important;
+  margin-bottom: 0.28em !important;
 }
 .reveal ul, .reveal ol {
-  margin-bottom: 0.45em !important;
+  margin-bottom: 0.4em !important;
 }
 .reveal table {
-  font-size: 0.80em !important;
-  margin: 0.45em auto !important;
+  font-size: 0.78em !important;
+  margin: 0.4em auto !important;
   width: 100% !important;
 }
 .reveal table th, .reveal table td {
-  padding: 0.38em 0.65em !important;
-  line-height: 1.3 !important;
+  padding: 0.36em 0.55em !important;
+  line-height: 1.28 !important;
+}
+.reveal div.sourceCode {
+  margin: 0.45em 0 !important;
+  border: 1px solid rgba(148, 163, 184, 0.32) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4) !important;
 }
 .reveal pre {
-  margin: 0.45em 0 !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.35) !important;
+  width: 100% !important;
+  margin: 0 !important;
 }
 .reveal pre code {
-  font-size: 0.76em !important;
-  line-height: 1.32 !important;
+  font-size: 0.90em !important;
+  line-height: 1.34 !important;
   max-height: 540px !important;
-  padding: 0.75em 1em !important;
+  padding: 0.85em 1.05em !important;
 }
 .reveal .callout {
-  font-size: 0.86em !important;
-  margin-top: 0.45em !important;
-  margin-bottom: 0.45em !important;
+  font-size: 0.84em !important;
+  margin-top: 0.4em !important;
+  margin-bottom: 0.4em !important;
 }
 .reveal .callout .callout-body {
-  padding: 0.45em 0.8em !important;
+  padding: 0.4em 0.75em !important;
+}
+.reveal .mermaid svg {
+  max-width: 100% !important;
+  height: auto !important;
+}
+.takeaway-pill {
+  background: rgba(247, 127, 0, 0.14);
+  border-left: 4px solid #f77f00;
+  padding: 0.45em 0.85em;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.84em;
+  margin-top: 0.45em;
 }
 </style>
 </section>
@@ -309,8 +327,8 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </div>
 </div>
 </div>
-<p style="margin-top:0.9rem;">
-<a href="geovisor-ia_report.html" style="background:#f77f00;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;font-size:0.88em;">📘 Ir al Manual con Geovisor de los 27 Barrios en Vivo</a>
+<p style="margin-top:0.85rem;">
+<a href="geovisor-ia_report.html" style="background:#f77f00;color:#fff;padding:11px 18px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;font-size:0.86em;">📘 Ir al Manual con Geovisor de los 27 Barrios en Vivo</a>
 </p>
 </div></div>
 </section>
@@ -400,13 +418,15 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </section>
 <section id="sistemas-de-coordenadas-crs-y-códigos-epsg" class="slide level2">
 <h2>1.3. Sistemas de Coordenadas (CRS) y Códigos <code>EPSG</code></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>El error #1 al programar mapas con IA: confundir grados con metros</strong></p>
+<p><strong>El error #1 con IA: confundir grados con metros</strong></p>
 </div>
 <div class="callout-content">
 
@@ -415,53 +435,52 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </div>
 <table class="caption-top">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 23%">
-<col style="width: 29%">
-<col style="width: 23%">
+<col style="width: 30%">
+<col style="width: 38%">
+<col style="width: 30%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Código EPSG</th>
-<th style="text-align: left;">Nombre Técnico</th>
 <th style="text-align: center;">Unidad</th>
-<th style="text-align: left;">¿Para qué se DEBE usar en el código?</th>
+<th style="text-align: left;">Uso obligatorio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong><code>EPSG:32719</code></strong></td>
-<td style="text-align: left;"><strong>WGS 84 / UTM Huso 19S</strong> <em>(Proyectado)</em></td>
+<td style="text-align: left;"><strong><code>EPSG:32719</code></strong> <em>(UTM 19S)</em></td>
 <td style="text-align: center;"><strong>Metros (<span class="math inline">\(\text{m}\)</span>)</strong></td>
-<td style="text-align: left;"><strong>Cálculos geométricos y físicos:</strong> calcular áreas en <span class="math inline">\(\text{m}^2\)</span> o hectáreas (<code>st_area()</code>), densidad (<span class="math inline">\(\text{hab/ha}\)</span>), intersecciones (<code>st_intersection()</code>) y vecino más cercano (<code>st_nearest_feature()</code>).</td>
+<td style="text-align: left;">Áreas (<code>st_area()</code>), densidad (<span class="math inline">\(\text{hab/ha}\)</span>), intersecciones y vecino más cercano.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong><code>EPSG:4326</code></strong></td>
-<td style="text-align: left;"><strong>WGS 84 Geográfico</strong> <em>(Esférico)</em></td>
+<td style="text-align: left;"><strong><code>EPSG:4326</code></strong> <em>(WGS 84)</em></td>
 <td style="text-align: center;"><strong>Grados (<span class="math inline">\(^\circ\)</span>)</strong></td>
-<td style="text-align: left;"><strong>Visualización web interactiva:</strong> entregar las capas a <code>mapgl::maplibre()</code> o <code>leaflet()</code>, que exigen latitud/longitud en <code>EPSG:4326</code>.</td>
+<td style="text-align: left;">Entregar capas finales al visor WebGL (<code>mapgl::maplibre()</code>).</td>
 </tr>
 </tbody>
 </table>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a><span class="co"># Flujo correcto: proyectar a metros (32719) para medir -&gt; transformar a grados (4326) para mapear</span></span>
-<span id="cb1-2"><a aria-label="2"></a>censo_stgo_utm <span class="ot">&lt;-</span> censo_raw <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a aria-label="3"></a>  <span class="fu">filter</span>(cut <span class="sc">==</span> <span class="dv">13101</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-4"><a aria-label="4"></a>  <span class="fu">st_as_sf</span>(<span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-5"><a aria-label="5"></a>  <span class="fu">st_transform</span>(<span class="dv">32719</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-6"><a aria-label="6"></a>  <span class="fu">st_make_valid</span>() <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a aria-label="7"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb1-8"><a aria-label="8"></a>    <span class="at">area_hectareas =</span> <span class="fu">as.numeric</span>(<span class="fu">st_area</span>(shape)) <span class="sc">/</span> <span class="dv">10000</span>,</span>
-<span id="cb1-9"><a aria-label="9"></a>    <span class="at">densidad_mzn   =</span> n_per <span class="sc">/</span> area_hectareas</span>
-<span id="cb1-10"><a aria-label="10"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a><span class="co"># Proyectar a metros (32719) para calcular</span></span>
+<span id="cb1-2"><a aria-label="2"></a><span class="co"># y luego volver a grados (4326) para mapear</span></span>
+<span id="cb1-3"><a aria-label="3"></a>censo_stgo_utm <span class="ot">&lt;-</span> censo_raw <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a aria-label="4"></a>  <span class="fu">filter</span>(cut <span class="sc">==</span> <span class="dv">13101</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a aria-label="5"></a>  <span class="fu">st_as_sf</span>(<span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-6"><a aria-label="6"></a>  <span class="fu">st_transform</span>(<span class="dv">32719</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a aria-label="7"></a>  <span class="fu">st_make_valid</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a aria-label="8"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-9"><a aria-label="9"></a>    <span class="at">area_ha  =</span> <span class="fu">as.numeric</span>(<span class="fu">st_area</span>(shape)) <span class="sc">/</span> <span class="dv">10000</span>,</span>
+<span id="cb1-10"><a aria-label="10"></a>    <span class="at">dens_mzn =</span> n_per <span class="sc">/</span> area_ha</span>
+<span id="cb1-11"><a aria-label="11"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
 </section>
 <section id="cuatro-operaciones-topológicas-esenciales" class="slide level2">
 <h2>1.4. Cuatro Operaciones Topológicas Esenciales</h2>
-<p>Cuando cruzamos fuentes distintas en la comuna de Santiago (Censo 2024, 27 Barrios Municipales, CIT 2017 y Veredas SIEDU 2018), los polígonos no calzan exactamente. Debes indicarle a la IA cuál de estas 4 operaciones aplicar:</p>
+<p>Cuando cruzamos fuentes distintas en la comuna de Santiago (Censo 2024, 27 Barrios Municipales, CIT 2017 y Veredas SIEDU 2018), los polígonos no calzan exactamente. Debes indicarle a la IA cuál aplicar:</p>
 <ol type="1">
 <li><strong>Reparación Topológica (<code>st_make_valid()</code>):</strong> Corrige polígonos con auto-intersecciones o anillos abiertos antes de cualquier cruce.</li>
-<li><strong>Punto en Superficie (<code>st_point_on_surface()</code>):</strong> A diferencia del centroide geométrico (<code>st_centroid()</code>), garantiza que el punto representativo de una manzana en forma de “L” o “U” caiga siempre <strong>dentro</strong> de la manzana al asignarle uno de los <strong>27 barrios de Santiago</strong>.</li>
-<li><strong>Disolución Espacial (<code>st_union()</code>):</strong> Permite fusionar polígonos de barrios contiguos en macro-zonas cuando el análisis territorial lo requiere (<code>group_by(zona) |&gt; summarise(geometry = st_union(geometry))</code>).</li>
-<li><strong>Interpolación Areal Ponderada (<code>st_intersection()</code> + <code>st_area()</code>):</strong> Cuando las manzanas SIEDU 2018 no coinciden con las <code>1.711</code> manzanas del Censo 2024, <strong>las manzanas censales mandan</strong>: cortamos los fragmentos de vereda dentro de cada manzana censal y promediamos su nota ponderando por el área de cada fragmento.</li>
+<li><strong>Punto en Superficie (<code>st_point_on_surface()</code>):</strong> A diferencia del centroide geométrico (<code>st_centroid()</code>), garantiza que el punto de una manzana en forma de “L” o “U” caiga siempre <strong>dentro</strong> al asignarle uno de los <strong>27 barrios de Santiago</strong>.</li>
+<li><strong>Disolución Espacial (<code>st_union()</code>):</strong> Permite fusionar polígonos de barrios contiguos en macro-zonas cuando el análisis lo requiere (<code>group_by(zona) |&gt; summarise(geometry = st_union(geometry))</code>).</li>
+<li><strong>Interpolación Areal Ponderada (<code>st_intersection()</code> + <code>st_area()</code>):</strong> Cuando las manzanas SIEDU 2018 no coinciden con las <code>1.711</code> manzanas del Censo 2024, <strong>las manzanas censales mandan</strong>: cortamos los fragmentos y promediamos ponderando por su superficie.</li>
 </ol>
 </section>
 <section id="semiología-gráfica-y-coherencia-semántica-del-color" class="slide level2">
@@ -478,8 +497,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </ul></li>
 <li><strong>Cortes por Percentiles (<code>P2–P50–P98</code>) vs.&nbsp;Rango Fijo (<code>0–100%</code>):</strong>
 <ul>
-<li>Percentiles (<code>0.02, 0.50, 0.98</code>) evitan que un valor extremo apague el contraste entre las <code>1.711</code> manzanas.</li>
-<li>Rango fijo (<code>c(0, 50, 100)</code>) se utiliza cuando se requiere mostrar la escala teórica completa de <code>0%</code> a <code>100%</code>.</li>
+<li>Percentiles (<code>0.02, 0.50, 0.98</code>) evitan que un valor extremo apague el contraste entre las <code>1.711</code> manzanas; el rango fijo (<code>c(0, 50, 100)</code>) muestra la escala teórica completa.</li>
 </ul></li>
 </ul>
 </section>
@@ -510,22 +528,22 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <tr class="odd">
 <td style="text-align: left;"><strong>Tooltip HTML</strong></td>
 <td style="text-align: left;">Cuadro emergente al pasar el cursor (<code>hover</code>) sobre una manzana o barra.</td>
-<td style="text-align: left;"><em>“Crea una columna <code>tooltip_html</code> con CSS inline que muestre Barrio, ID de manzana, población, densidad (<code>hab/ha</code>), valor de la manzana y brecha con su Barrio y con Santiago.”</em></td>
+<td style="text-align: left;"><em>“Crea <code>tooltip_html</code> con CSS inline que muestre Barrio, ID de manzana, población, densidad (<code>hab/ha</code>), valor y brecha con Barrio y Santiago.”</em></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Jerarquía de Capas (<code>Layers</code>)</strong></td>
 <td style="text-align: left;">Orden de apilamiento visual en <code>MapLibre</code> (de abajo hacia arriba).</td>
-<td style="text-align: left;"><em>“Apila: 1) <code>add_fill_layer</code> (<code>1.711</code> manzanas), 2) <code>add_line_layer</code> blanco (halo perimetral), 3) <code>add_line_layer</code> oscuro (<code>27</code> barrios), 4) <code>add_symbol_layer</code> (nombres de los <code>27</code> barrios con halo blanco).”</em></td>
+<td style="text-align: left;"><em>“Apila: 1) <code>add_fill_layer</code> (<code>1.711</code> manzanas), 2) <code>add_line_layer</code> blanco (halo), 3) <code>add_line_layer</code> oscuro (<code>27</code> barrios), 4) <code>add_symbol_layer</code> (nombres).”</em></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Cero Estructural vs.&nbsp;<code>NA</code></strong></td>
-<td style="text-align: left;">Manzanas no residenciales (<code>n_per == 0</code>: <code>419</code> manzanas en Santiago como Parque O’Higgins, Quinta Normal o comercio exclusivo).</td>
-<td style="text-align: left;"><em>“Asigna <code>NA_real_</code> cuando <code>n_per == 0</code>. Impútalo con <code>st_nearest_feature()</code> para no dejar huecos en el mapa, pero promedia por barrio filtrando <code>manzana_habitada == TRUE</code>.”</em></td>
+<td style="text-align: left;">Manzanas no residenciales (<code>n_per == 0</code>: <code>419</code> manzanas como Parque O’Higgins o comercio exclusivo).</td>
+<td style="text-align: left;"><em>“Asigna <code>NA_real_</code> cuando <code>n_per == 0</code>. Impútalo con <code>st_nearest_feature()</code> para el mapa, pero promedia por barrio filtrando <code>manzana_habitada == TRUE</code>.”</em></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Semáforo Estadístico (<code>styleInterval</code>)</strong></td>
-<td style="text-align: left;">Coloreo condicional de celdas en <code>DT::datatable</code> para los 27 barrios según umbrales de la distribución comunal.</td>
-<td style="text-align: left;"><em>“Colorea en ámbar (<code>#fff3cd</code>) las celdas que superen la Media Comunal y en rojo (<code>#f8d7da</code>) las que superen <span class="math inline">\(\text{Media} + 0,5\,\text{DE}\)</span>.”</em></td>
+<td style="text-align: left;">Coloreo condicional de celdas en <code>DT::datatable</code> según umbrales de la distribución comunal.</td>
+<td style="text-align: left;"><em>“Colorea en ámbar (<code>#fff3cd</code>) sobre la Media Comunal y en rojo (<code>#f8d7da</code>) sobre <span class="math inline">\(\text{Media} + 0,5\,\text{DE}\)</span>.”</em></td>
 </tr>
 </tbody>
 </table>
@@ -540,92 +558,88 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </section>
 <section id="cruce-espacial-de-las-1.711-manzanas-con-los-27-barrios" class="slide level2">
 <h2>3.1. Cruce Espacial de las 1.711 Manzanas con los 27 Barrios</h2>
-<p>¿Cómo asignamos cada una de las <code>1.711</code> manzanas del Censo 2024 a uno de los <strong>27 barrios oficiales de Santiago (<code>LIMITE_BARRIOS.shp</code>)</strong> sin errores de borde?</p>
+<p>¿Cómo asignamos cada una de las <code>1.711</code> manzanas del Censo 2024 a uno de los <strong>27 barrios oficiales de Santiago</strong> sin errores de borde?</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-label="1"></a><span class="co"># 1. Punto interior garantizado (evita fallos en manzanas con forma de L o U)</span></span>
 <span id="cb2-2"><a aria-label="2"></a>centroides_mzn <span class="ot">&lt;-</span> <span class="fu">st_point_on_surface</span>(censo_stgo_utm <span class="sc">|&gt;</span> <span class="fu">select</span>(cod_mzn))</span>
 <span id="cb2-3"><a aria-label="3"></a></span>
 <span id="cb2-4"><a aria-label="4"></a><span class="co"># 2. Unión espacial por intersección en EPSG:32719</span></span>
 <span id="cb2-5"><a aria-label="5"></a>join_barrios <span class="ot">&lt;-</span> <span class="fu">st_join</span>(</span>
-<span id="cb2-6"><a aria-label="6"></a>  centroides_mzn,</span>
-<span id="cb2-7"><a aria-label="7"></a>  barrios_stgo_utm <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="at">barrio =</span> BARRIO, <span class="at">agrp =</span> AGRP),</span>
-<span id="cb2-8"><a aria-label="8"></a>  <span class="at">join =</span> st_intersects</span>
-<span id="cb2-9"><a aria-label="9"></a>)</span>
-<span id="cb2-10"><a aria-label="10"></a></span>
-<span id="cb2-11"><a aria-label="11"></a><span class="co"># 3. Rescate por vecino más cercano si algún borde cae exactamente sobre el eje de una avenida</span></span>
-<span id="cb2-12"><a aria-label="12"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(join_barrios<span class="sc">$</span>barrio))) {</span>
-<span id="cb2-13"><a aria-label="13"></a>  idx_na <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">is.na</span>(join_barrios<span class="sc">$</span>barrio))</span>
-<span id="cb2-14"><a aria-label="14"></a>  near_b <span class="ot">&lt;-</span> <span class="fu">st_nearest_feature</span>(centroides_mzn[idx_na, ], barrios_stgo_utm)</span>
-<span id="cb2-15"><a aria-label="15"></a>  join_barrios<span class="sc">$</span>barrio[idx_na] <span class="ot">&lt;-</span> barrios_stgo_utm<span class="sc">$</span>BARRIO[near_b]</span>
-<span id="cb2-16"><a aria-label="16"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-6"><a aria-label="6"></a>  centroides_mzn, barrios_stgo_utm <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="at">barrio =</span> BARRIO), <span class="at">join =</span> st_intersects</span>
+<span id="cb2-7"><a aria-label="7"></a>)</span>
+<span id="cb2-8"><a aria-label="8"></a></span>
+<span id="cb2-9"><a aria-label="9"></a><span class="co"># 3. Rescate por vecino más cercano si el borde cae sobre el eje de una avenida</span></span>
+<span id="cb2-10"><a aria-label="10"></a><span class="cf">if</span> (<span class="fu">any</span>(<span class="fu">is.na</span>(join_barrios<span class="sc">$</span>barrio))) {</span>
+<span id="cb2-11"><a aria-label="11"></a>  idx_na <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">is.na</span>(join_barrios<span class="sc">$</span>barrio))</span>
+<span id="cb2-12"><a aria-label="12"></a>  near_b <span class="ot">&lt;-</span> <span class="fu">st_nearest_feature</span>(centroides_mzn[idx_na, ], barrios_stgo_utm)</span>
+<span id="cb2-13"><a aria-label="13"></a>  join_barrios<span class="sc">$</span>barrio[idx_na] <span class="ot">&lt;-</span> barrios_stgo_utm<span class="sc">$</span>BARRIO[near_b]</span>
+<span id="cb2-14"><a aria-label="14"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="takeaway-pill">
+<p><strong>Clave metodológica:</strong> Trabajar sobre puntos interiores en <code>EPSG:32719</code> + rescate con <code>st_nearest_feature()</code> garantiza <strong><code>0</code> manzanas sin barrio</strong> y evita duplicar una manzana cuando toca dos polígonos vecinos.</p>
+</div>
 </section>
 <section id="interpolación-areal-de-veredas-siedu-sobre-manzanas-2024" class="slide level2">
 <h2>3.2. Interpolación Areal de Veredas SIEDU sobre Manzanas 2024</h2>
-<p>¿Cómo transferimos el estado de veredas (<code>LB2018_IS40_Calidad_Veredas</code>, medido en 2018) a las <code>1.711</code> manzanas del <strong>Censo 2024</strong> cuando sus geometrías difieren? <strong>“Las manzanas censales mandan”</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-label="1"></a><span class="co"># 1. Intersección geométrica en metros (EPSG:32719)</span></span>
+<p>¿Cómo transferimos el estado de veredas (<code>LB2018_IS40_Calidad_Veredas</code>, 2018) a las <code>1.711</code> manzanas del <strong>Censo 2024</strong> cuando sus límites difieren?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-label="1"></a><span class="co"># 1. Intersección geométrica en metros (EPSG:32719): las manzanas censales mandan</span></span>
 <span id="cb3-2"><a aria-label="2"></a>veredas_interseccion <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(</span>
-<span id="cb3-3"><a aria-label="3"></a>  <span class="fu">st_intersection</span>(</span>
-<span id="cb3-4"><a aria-label="4"></a>    swalk_stgo_utm <span class="sc">|&gt;</span> <span class="fu">select</span>(qswalk),   <span class="co"># Puntaje 1 (Excelente) a 5 (No existe)</span></span>
-<span id="cb3-5"><a aria-label="5"></a>    censo_stgo_utm <span class="sc">|&gt;</span> <span class="fu">select</span>(cod_mzn)   <span class="co"># Geometría maestra Censo 2024 (1.711 manzanas)</span></span>
-<span id="cb3-6"><a aria-label="6"></a>  )</span>
-<span id="cb3-7"><a aria-label="7"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb3-8"><a aria-label="8"></a>  <span class="fu">mutate</span>(<span class="at">area_fragmento =</span> <span class="fu">as.numeric</span>(<span class="fu">st_area</span>(Shape))) <span class="sc">|&gt;</span></span>
-<span id="cb3-9"><a aria-label="9"></a>  <span class="fu">st_drop_geometry</span>()</span>
-<span id="cb3-10"><a aria-label="10"></a></span>
-<span id="cb3-11"><a aria-label="11"></a><span class="co"># 2. Promedio ponderado por área dentro de cada manzana censal y re-escalamiento 0-100%</span></span>
-<span id="cb3-12"><a aria-label="12"></a>veredas_mzn_ponderada <span class="ot">&lt;-</span> veredas_interseccion <span class="sc">|&gt;</span></span>
-<span id="cb3-13"><a aria-label="13"></a>  <span class="fu">group_by</span>(cod_mzn) <span class="sc">|&gt;</span></span>
-<span id="cb3-14"><a aria-label="14"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb3-15"><a aria-label="15"></a>    <span class="at">qswalk_pond =</span> <span class="fu">sum</span>(qswalk <span class="sc">*</span> area_fragmento, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">sum</span>(area_fragmento, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb3-16"><a aria-label="16"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb3-17"><a aria-label="17"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb3-18"><a aria-label="18"></a>  <span class="fu">mutate</span>(<span class="at">ind_deterioro_veredas =</span> ((qswalk_pond <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">4</span>) <span class="sc">*</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-3"><a aria-label="3"></a>  <span class="fu">st_intersection</span>(swalk_stgo_utm <span class="sc">|&gt;</span> <span class="fu">select</span>(qswalk), censo_stgo_utm <span class="sc">|&gt;</span> <span class="fu">select</span>(cod_mzn))</span>
+<span id="cb3-4"><a aria-label="4"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a aria-label="5"></a>  <span class="fu">mutate</span>(<span class="at">area_fragmento =</span> <span class="fu">as.numeric</span>(<span class="fu">st_area</span>(Shape))) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a aria-label="6"></a>  <span class="fu">st_drop_geometry</span>()</span>
+<span id="cb3-7"><a aria-label="7"></a></span>
+<span id="cb3-8"><a aria-label="8"></a><span class="co"># 2. Promedio ponderado por área dentro de cada manzana y escala 0–100%</span></span>
+<span id="cb3-9"><a aria-label="9"></a>veredas_mzn_ponderada <span class="ot">&lt;-</span> veredas_interseccion <span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a aria-label="10"></a>  <span class="fu">group_by</span>(cod_mzn) <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a aria-label="11"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb3-12"><a aria-label="12"></a>    <span class="at">qswalk_pond =</span> <span class="fu">sum</span>(qswalk <span class="sc">*</span> area_fragmento) <span class="sc">/</span> <span class="fu">sum</span>(area_fragmento),</span>
+<span id="cb3-13"><a aria-label="13"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb3-14"><a aria-label="14"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-15"><a aria-label="15"></a>  <span class="fu">mutate</span>(<span class="at">ind_deterioro_veredas =</span> ((qswalk_pond <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">4</span>) <span class="sc">*</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="takeaway-pill">
+<p><strong>Por qué ponderar por área:</strong> Si una manzana del Censo 2024 abarca un 80% de vereda <em>Buena</em> (<code>2</code>) y un 20% de vereda <em>Mala</em> (<code>4</code>), su puntaje compuesto refleja la superficie real (<code>2,4</code>), no un promedio simple distorsionado.</p>
+</div>
 </section>
 <section id="función-constructora-de-mapas-crear_mapa_manzana_stgo" class="slide level2">
 <h2>3.3. Función Constructora de Mapas (<code>crear_mapa_manzana_stgo</code>)</h2>
-<p>En vez de copiar y pegar 8 veces el código de <code>maplibre()</code>, encapsulamos el diseño en una función reutilizable para las <code>1.711</code> manzanas y <code>27</code> barrios con soporte para unidades (<code>%</code> o <code>años</code>), rangos fijos o por cuantiles, y tooltip estandarizado:</p>
+<p>Encapsulamos el geovisor en una función reutilizable para las <code>1.711</code> manzanas y <code>27</code> barrios con soporte para unidades (<code>%</code> o <code>años</code>) y rangos flexibles:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-label="1"></a>crear_mapa_manzana_stgo <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb4-2"><a aria-label="2"></a>    datos_sf, barrios_sf, var_col, var_barrio_col, prom_santiago_val,</span>
+<span id="cb4-2"><a aria-label="2"></a>    datos_sf, barrios_sf, var_col, var_barrio_col, prom_stgo_val,</span>
 <span id="cb4-3"><a aria-label="3"></a>    titulo_leyenda, subtitulo_var, paleta_colores,</span>
-<span id="cb4-4"><a aria-label="4"></a>    <span class="at">sufijo_unidad =</span> <span class="st">"%"</span>, <span class="at">sufijo_brecha =</span> <span class="st">" pp"</span>, <span class="at">rango_fijo =</span> <span class="cn">NULL</span>, <span class="at">lineas_extra_fn =</span> <span class="cn">NULL</span></span>
+<span id="cb4-4"><a aria-label="4"></a>    <span class="at">sufijo_unidad =</span> <span class="st">"%"</span>, <span class="at">rango_fijo =</span> <span class="cn">NULL</span></span>
 <span id="cb4-5"><a aria-label="5"></a>) {</span>
-<span id="cb4-6"><a aria-label="6"></a>  <span class="co"># 1. Cortes de leyenda (fijos ej. 0-100% en Seguridad, o percentiles P2-P50-P98)</span></span>
-<span id="cb4-7"><a aria-label="7"></a>  cortes <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(rango_fijo)) rango_fijo <span class="cf">else</span></span>
-<span id="cb4-8"><a aria-label="8"></a>    <span class="fu">as.numeric</span>(<span class="fu">quantile</span>(datos_sf[[var_col]], <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.50</span>, <span class="fl">0.98</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb4-9"><a aria-label="9"></a></span>
-<span id="cb4-10"><a aria-label="10"></a>  <span class="co"># 2. Construcción vectorizada del Tooltip HTML con str_to_title(barrio) y brechas</span></span>
-<span id="cb4-11"><a aria-label="11"></a>  barrio_titulo_inicial <span class="ot">&lt;-</span> <span class="fu">str_to_title</span>(datos_sf<span class="sc">$</span>barrio)</span>
-<span id="cb4-12"><a aria-label="12"></a>  <span class="co"># ... [arma datos_sf$tooltip_html] ...</span></span>
-<span id="cb4-13"><a aria-label="13"></a></span>
-<span id="cb4-14"><a aria-label="14"></a>  <span class="co"># 3. Apilamiento de capas WebGL en MapLibre sobre los 27 barrios de Santiago</span></span>
-<span id="cb4-15"><a aria-label="15"></a>  <span class="fu">maplibre</span>(<span class="at">bounds =</span> barrios_sf, <span class="at">style =</span> <span class="fu">carto_style</span>(<span class="st">"positron"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb4-16"><a aria-label="16"></a>    <span class="fu">add_fill_layer</span>(<span class="at">id =</span> <span class="st">"mzn_fill_layer"</span>, <span class="at">source =</span> datos_sf, <span class="at">tooltip =</span> <span class="st">"tooltip_html"</span>, ...) <span class="sc">|&gt;</span></span>
-<span id="cb4-17"><a aria-label="17"></a>    <span class="fu">add_line_layer</span>(<span class="at">id =</span> <span class="st">"barrios_outline"</span>, <span class="at">source =</span> barrios_sf, <span class="at">line_color =</span> <span class="st">"#1e293b"</span>, <span class="at">line_width =</span> <span class="fl">1.2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-18"><a aria-label="18"></a>    <span class="fu">add_symbol_layer</span>(<span class="at">id =</span> <span class="st">"barrios_labels"</span>, <span class="at">source =</span> barrios_sf, <span class="at">text_field =</span> <span class="fu">c</span>(<span class="st">"get"</span>, <span class="st">"BARRIO"</span>), ...)</span>
-<span id="cb4-19"><a aria-label="19"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-6"><a aria-label="6"></a>  cortes <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(rango_fijo)) rango_fijo <span class="cf">else</span></span>
+<span id="cb4-7"><a aria-label="7"></a>    <span class="fu">as.numeric</span>(<span class="fu">quantile</span>(datos_sf[[var_col]], <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.50</span>, <span class="fl">0.98</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-8"><a aria-label="8"></a></span>
+<span id="cb4-9"><a aria-label="9"></a>  barrio_titulo <span class="ot">&lt;-</span> <span class="fu">str_to_title</span>(datos_sf<span class="sc">$</span>barrio) <span class="co"># Mayúscula inicial en tooltip</span></span>
+<span id="cb4-10"><a aria-label="10"></a></span>
+<span id="cb4-11"><a aria-label="11"></a>  <span class="fu">maplibre</span>(<span class="at">bounds =</span> barrios_sf, <span class="at">style =</span> <span class="fu">carto_style</span>(<span class="st">"positron"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-12"><a aria-label="12"></a>    <span class="fu">add_fill_layer</span>(<span class="at">id =</span> <span class="st">"mzn_fill_layer"</span>, <span class="at">source =</span> datos_sf, <span class="at">tooltip =</span> <span class="st">"tooltip_html"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-13"><a aria-label="13"></a>    <span class="fu">add_line_layer</span>(<span class="at">id =</span> <span class="st">"barrios_outline"</span>, <span class="at">source =</span> barrios_sf, <span class="at">line_color =</span> <span class="st">"#1e293b"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-14"><a aria-label="14"></a>    <span class="fu">add_symbol_layer</span>(<span class="at">id =</span> <span class="st">"barrios_labels"</span>, <span class="at">source =</span> barrios_sf, <span class="at">text_field =</span> <span class="fu">c</span>(<span class="st">"get"</span>, <span class="st">"BARRIO"</span>))</span>
+<span id="cb4-15"><a aria-label="15"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="takeaway-pill">
+<p><strong>Principio DRY (<em>Don’t Repeat Yourself</em>):</strong> Parametrizar <code>maplibre()</code> en una única función impide inconsistencias entre las 8 dimensiones y facilita cambiar el diseño del <code>tooltip_html</code> en un solo lugar.</p>
+</div>
 </section>
 <section id="síntesis-multidimensional-de-los-27-barrios-heatmap-z-score" class="slide level2">
 <h2>3.4. Síntesis Multidimensional de los 27 Barrios (<code>Heatmap Z-Score</code>)</h2>
-<p>Para comparar en una sola matriz los <strong>27 barrios de Santiago</strong> en variables medidas en <strong>años</strong> (<code>Escolaridad</code>) y en <strong>porcentajes</strong> (<code>Déficit Vivienda</code>, <code>Desocupación</code>, <code>Infraestructura</code>), estandarizamos cada columna en <strong>Puntajes Z (<span class="math inline">\(Z\)</span>-scores)</strong>:</p>
+<p>Para comparar los <strong>27 barrios de Santiago</strong> en variables medidas en <strong>años</strong> (<code>Escolaridad</code>) y en <strong>porcentajes</strong>, estandarizamos cada columna en <strong>Puntajes Z (<span class="math inline">\(Z\)</span>-scores)</strong>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a>df_heatmap <span class="ot">&lt;-</span> resumen_barrios <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a aria-label="2"></a>  <span class="fu">select</span>(</span>
-<span id="cb5-3"><a aria-label="3"></a>    barrio,</span>
-<span id="cb5-4"><a aria-label="4"></a>    <span class="st">`</span><span class="at">1. Escolaridad (años)</span><span class="st">`</span> <span class="ot">=</span> prom_escolaridad18,</span>
-<span id="cb5-5"><a aria-label="5"></a>    <span class="st">`</span><span class="at">2. Déficit Vivienda</span><span class="st">`</span>   <span class="ot">=</span> pct_deficit_cuant,</span>
-<span id="cb5-6"><a aria-label="6"></a>    <span class="st">`</span><span class="at">3. Disconfort Amb.</span><span class="st">`</span>    <span class="ot">=</span> ind_disconfort_amb,</span>
-<span id="cb5-7"><a aria-label="7"></a>    <span class="st">`</span><span class="at">4. Exposición Delito</span><span class="st">`</span>  <span class="ot">=</span> ind_inseguridad_del,</span>
-<span id="cb5-8"><a aria-label="8"></a>    <span class="st">`</span><span class="at">5. Desocupación</span><span class="st">`</span>       <span class="ot">=</span> tasa_desocupacion,</span>
-<span id="cb5-9"><a aria-label="9"></a>    <span class="st">`</span><span class="at">6. Migración</span><span class="st">`</span>          <span class="ot">=</span> pct_inmigrantes,</span>
-<span id="cb5-10"><a aria-label="10"></a>    <span class="st">`</span><span class="at">7. Envejecimiento</span><span class="st">`</span>     <span class="ot">=</span> pct_adulto_mayor,</span>
-<span id="cb5-11"><a aria-label="11"></a>    <span class="st">`</span><span class="at">8. Infraestructura</span><span class="st">`</span>    <span class="ot">=</span> ind_deterioro_veredas</span>
-<span id="cb5-12"><a aria-label="12"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb5-13"><a aria-label="13"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>barrio, <span class="at">names_to =</span> <span class="st">"dimension"</span>, <span class="at">values_to =</span> <span class="st">"valor_raw"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-14"><a aria-label="14"></a>  <span class="fu">group_by</span>(dimension) <span class="sc">|&gt;</span></span>
-<span id="cb5-15"><a aria-label="15"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-16"><a aria-label="16"></a>    <span class="at">z_raw   =</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(valor_raw)),</span>
-<span id="cb5-17"><a aria-label="17"></a>    <span class="co"># Invertimos solo Escolaridad para que Rojo (+Z) sea siempre MAYOR criticidad</span></span>
-<span id="cb5-18"><a aria-label="18"></a>    <span class="at">z_score =</span> <span class="fu">if_else</span>(dimension <span class="sc">==</span> <span class="st">"1. Escolaridad (años)"</span>, <span class="sc">-</span>z_raw, z_raw),</span>
-<span id="cb5-19"><a aria-label="19"></a>    <span class="at">z_clip  =</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(z_score, <span class="sc">-</span><span class="dv">2</span>), <span class="dv">2</span>)</span>
-<span id="cb5-20"><a aria-label="20"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-2"><a aria-label="2"></a>  <span class="fu">select</span>(barrio, <span class="st">`</span><span class="at">1. Escolaridad (años)</span><span class="st">`</span> <span class="ot">=</span> prom_escolaridad18,</span>
+<span id="cb5-3"><a aria-label="3"></a>         <span class="st">`</span><span class="at">2. Déficit Vivienda</span><span class="st">`</span> <span class="ot">=</span> pct_deficit_cuant, <span class="st">`</span><span class="at">3. Disconfort Amb.</span><span class="st">`</span> <span class="ot">=</span> ind_disconfort_amb,</span>
+<span id="cb5-4"><a aria-label="4"></a>         <span class="st">`</span><span class="at">4. Exposición Delito</span><span class="st">`</span> <span class="ot">=</span> ind_inseguridad_del, <span class="st">`</span><span class="at">5. Desocupación</span><span class="st">`</span> <span class="ot">=</span> tasa_desocupacion,</span>
+<span id="cb5-5"><a aria-label="5"></a>         <span class="st">`</span><span class="at">6. Migración</span><span class="st">`</span> <span class="ot">=</span> pct_inmigrantes, <span class="st">`</span><span class="at">7. Envejecimiento</span><span class="st">`</span> <span class="ot">=</span> pct_adulto_mayor,</span>
+<span id="cb5-6"><a aria-label="6"></a>         <span class="st">`</span><span class="at">8. Infraestructura</span><span class="st">`</span> <span class="ot">=</span> ind_deterioro_veredas) <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a aria-label="7"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>barrio, <span class="at">names_to =</span> <span class="st">"dimension"</span>, <span class="at">values_to =</span> <span class="st">"valor_raw"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a aria-label="8"></a>  <span class="fu">group_by</span>(dimension) <span class="sc">|&gt;</span></span>
+<span id="cb5-9"><a aria-label="9"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-10"><a aria-label="10"></a>    <span class="at">z_raw   =</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(valor_raw)),</span>
+<span id="cb5-11"><a aria-label="11"></a>    <span class="at">z_score =</span> <span class="fu">if_else</span>(dimension <span class="sc">==</span> <span class="st">"1. Escolaridad (años)"</span>, <span class="sc">-</span>z_raw, z_raw),</span>
+<span id="cb5-12"><a aria-label="12"></a>    <span class="at">z_clip  =</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(z_score, <span class="sc">-</span><span class="dv">2</span>), <span class="dv">2</span>)</span>
+<span id="cb5-13"><a aria-label="13"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="takeaway-pill">
+<p><strong>Coherencia visual:</strong> Invertir el signo solo en Escolaridad (<code>-z_raw</code>) hace que el <strong>rojo (<code>+Z</code>)</strong> signifique siempre <strong>mayor criticidad</strong> (menos años de estudio o mayor déficit), mientras el hover muestra los valores reales (<code>años</code> o <code>%</code>).</p>
+</div>
 </section>
 <section class="slide level2">
 
@@ -638,7 +652,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <section id="anatomía-de-un-buen-prompt-territorial" class="slide level2">
 <h2>4.1. Anatomía de un Buen Prompt Territorial</h2>
 <div class="columns">
-<div class="column" style="width:48%;">
+<div class="column" style="width:47%;">
 <h3 id="lo-que-no-debes-pedir">❌ Lo que NO debes pedir</h3>
 <ul>
 <li><em>“Hazme un mapa de Santiago con datos del censo.”</em></li>
@@ -646,7 +660,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <li><em>“Agrega las veredas por manzana.”</em></li>
 <li><em>“Sube la carpeta a mi GitHub.”</em> <em>(¡Riesgo de subir gigabytes de datos privados o romper el límite de 100 MB!)</em></li>
 </ul>
-</div><div class="column" style="width:52%;">
+</div><div class="column" style="width:53%;">
 <h3 id="lo-que-sí-debes-especificar">✅ Lo que SÍ debes especificar</h3>
 <ol type="1">
 <li><strong>Geometría maestra y <code>EPSG</code>:</strong> <em>“Censo 2024 manda (<code>1.711</code> manzanas); calcula áreas e intersecciones en <code>EPSG:32719</code> y mapea en <code>EPSG:4326</code> con los <code>27</code> barrios de <code>LIMITE_BARRIOS.shp</code>.”</em></li>
@@ -862,12 +876,12 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
         // The "normal" size of the presentation, aspect ratio will be preserved
         // when the presentation is scaled to fit different resolutions. Can be
         // specified using percentage units.
-        width: 1600,
+        width: 1280,
 
-        height: 900,
+        height: 720,
 
         // Factor of the display size that should remain empty around the content
-        margin: 6.0e-2,
+        margin: 4.0e-2,
 
         // Bounds for smallest/largest possible scale to apply to content
         minScale: 0.2,
