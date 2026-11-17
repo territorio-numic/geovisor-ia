@@ -12,6 +12,8 @@ format:
     toc-depth: 3
     toc-title: "Contenido del Curso"
     page-layout: full
+    code-fold: true
+    code-summary: "Mostrar código R"
     code-copy: true
     code-overflow: wrap
 execute:
