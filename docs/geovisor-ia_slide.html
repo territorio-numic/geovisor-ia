@@ -118,7 +118,6 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
-      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -217,10 +216,73 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 
   <p class="date">2026-11-17</p>
 </section>
-<section id="por-qué-geovisores-web-en-ciencias-sociales" class="slide level2 smaller scrollable">
+<section class="slide level2">
+
+<style>
+.reveal {
+  font-size: 25px !important;
+}
+.reveal .slides section {
+  padding-top: 0.2rem !important;
+}
+.reveal h1 {
+  font-size: 1.95em !important;
+  line-height: 1.15 !important;
+  margin-bottom: 0.35em !important;
+}
+.reveal h2 {
+  font-size: 1.42em !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.45em !important;
+  border-bottom: 2px solid rgba(247, 127, 0, 0.55);
+  padding-bottom: 0.18em;
+}
+.reveal h3 {
+  font-size: 1.12em !important;
+  margin-bottom: 0.28em !important;
+  color: #93c5fd !important;
+}
+.reveal p, .reveal li {
+  font-size: 0.92em !important;
+  line-height: 1.38 !important;
+  margin-bottom: 0.32em !important;
+}
+.reveal ul, .reveal ol {
+  margin-bottom: 0.45em !important;
+}
+.reveal table {
+  font-size: 0.80em !important;
+  margin: 0.45em auto !important;
+  width: 100% !important;
+}
+.reveal table th, .reveal table td {
+  padding: 0.38em 0.65em !important;
+  line-height: 1.3 !important;
+}
+.reveal pre {
+  margin: 0.45em 0 !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35) !important;
+}
+.reveal pre code {
+  font-size: 0.76em !important;
+  line-height: 1.32 !important;
+  max-height: 540px !important;
+  padding: 0.75em 1em !important;
+}
+.reveal .callout {
+  font-size: 0.86em !important;
+  margin-top: 0.45em !important;
+  margin-bottom: 0.45em !important;
+}
+.reveal .callout .callout-body {
+  padding: 0.45em 0.8em !important;
+}
+</style>
+</section>
+<section id="por-qué-geovisores-web-en-ciencias-sociales" class="slide level2">
 <h2>¿Por qué Geovisores Web en Ciencias Sociales?</h2>
 <div class="columns">
-<div class="column" style="width:55%;">
+<div class="column" style="width:54%;">
 <h3 id="el-giro-espacial-e-interactivo">El giro espacial e interactivo</h3>
 <ul>
 <li>Los fenómenos estudiados por la <strong>Sociología, Geografía y Ciencia Política</strong> (segregación, inseguridad, voto, déficit habitacional, envejecimiento) tienen una expresión territorial desigual.</li>
@@ -232,7 +294,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <li><strong>Asistentes de IA dirigidos con jerga técnica precisa</strong></li>
 </ol></li>
 </ul>
-</div><div class="column" style="width:45%;">
+</div><div class="column" style="width:46%;">
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -247,8 +309,8 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </div>
 </div>
 </div>
-<p style="margin-top:1rem;">
-<a href="geovisor-ia_report.html" style="background:#f77f00;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;">📘 Ir al Manual con Geovisor de los 27 Barrios en Vivo</a>
+<p style="margin-top:0.9rem;">
+<a href="geovisor-ia_report.html" style="background:#f77f00;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block;font-size:0.88em;">📘 Ir al Manual con Geovisor de los 27 Barrios en Vivo</a>
 </p>
 </div></div>
 </section>
@@ -260,7 +322,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <h1>Parte 1. Teoría Geográfica y Cartográfica</h1>
 <p>Escala, MAUP, Sistemas de Coordenadas (<code>EPSG</code>) y Topología en la Comuna de Santiago</p>
 </section>
-<section id="escala-geográfica-y-el-problema-maup" class="slide level2 smaller">
+<section id="escala-geográfica-y-el-problema-maup" class="slide level2">
 <h2>1.1. Escala Geográfica y el Problema MAUP</h2>
 <p>En el análisis urbano de la <strong>comuna de Santiago (<code>CUT 13101</code>)</strong> trabajamos con <strong>unidades espaciales anidadas</strong>:</p>
 <table class="caption-top">
@@ -299,7 +361,6 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </tr>
 </tbody>
 </table>
-<p><br></p>
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -317,7 +378,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </div>
 </div>
 </section>
-<section id="qué-es-un-sig-y-cómo-funciona-sf-en-r" class="slide level2 smaller scrollable">
+<section id="qué-es-un-sig-y-cómo-funciona-sf-en-r" class="slide level2">
 <h2>1.2. ¿Qué es un SIG y cómo funciona <code>sf</code> en R?</h2>
 <p>Un <strong>Sistema de Información Geográfica (SIG)</strong> une una <strong>tabla de atributos</strong> con una <strong>columna geométrica</strong>. En R, el paquete <strong><code>sf</code> (<em>Simple Features</em>)</strong> permite manipular mapas con los mismos verbos de <code>dplyr</code> (<code>filter</code>, <code>mutate</code>, <code>group_by</code>, <code>summarise</code>, <code>left_join</code>):</p>
 <div class="columns">
@@ -337,7 +398,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </ol>
 </div></div>
 </section>
-<section id="sistemas-de-coordenadas-crs-y-códigos-epsg" class="slide level2 smaller">
+<section id="sistemas-de-coordenadas-crs-y-códigos-epsg" class="slide level2">
 <h2>1.3. Sistemas de Coordenadas (CRS) y Códigos <code>EPSG</code></h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
@@ -372,7 +433,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <td style="text-align: left;"><strong><code>EPSG:32719</code></strong></td>
 <td style="text-align: left;"><strong>WGS 84 / UTM Huso 19S</strong> <em>(Proyectado)</em></td>
 <td style="text-align: center;"><strong>Metros (<span class="math inline">\(\text{m}\)</span>)</strong></td>
-<td style="text-align: left;"><strong>Cálculos geométricos y físicos:</strong> calcular áreas en <span class="math inline">\(\text{m}^2\)</span> o hectáreas (<code>st_area()</code>), densidad residencial (<span class="math inline">\(\text{hab/ha}\)</span>), intersecciones (<code>st_intersection()</code>) y vecino más cercano (<code>st_nearest_feature()</code>).</td>
+<td style="text-align: left;"><strong>Cálculos geométricos y físicos:</strong> calcular áreas en <span class="math inline">\(\text{m}^2\)</span> o hectáreas (<code>st_area()</code>), densidad (<span class="math inline">\(\text{hab/ha}\)</span>), intersecciones (<code>st_intersection()</code>) y vecino más cercano (<code>st_nearest_feature()</code>).</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong><code>EPSG:4326</code></strong></td>
@@ -393,7 +454,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <span id="cb1-9"><a aria-label="9"></a>    <span class="at">densidad_mzn   =</span> n_per <span class="sc">/</span> area_hectareas</span>
 <span id="cb1-10"><a aria-label="10"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="cuatro-operaciones-topológicas-esenciales" class="slide level2 smaller scrollable">
+<section id="cuatro-operaciones-topológicas-esenciales" class="slide level2">
 <h2>1.4. Cuatro Operaciones Topológicas Esenciales</h2>
 <p>Cuando cruzamos fuentes distintas en la comuna de Santiago (Censo 2024, 27 Barrios Municipales, CIT 2017 y Veredas SIEDU 2018), los polígonos no calzan exactamente. Debes indicarle a la IA cuál de estas 4 operaciones aplicar:</p>
 <ol type="1">
@@ -403,7 +464,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <li><strong>Interpolación Areal Ponderada (<code>st_intersection()</code> + <code>st_area()</code>):</strong> Cuando las manzanas SIEDU 2018 no coinciden con las <code>1.711</code> manzanas del Censo 2024, <strong>las manzanas censales mandan</strong>: cortamos los fragmentos de vereda dentro de cada manzana censal y promediamos su nota ponderando por el área de cada fragmento.</li>
 </ol>
 </section>
-<section id="semiología-gráfica-y-coherencia-semántica-del-color" class="slide level2 smaller">
+<section id="semiología-gráfica-y-coherencia-semántica-del-color" class="slide level2">
 <h2>1.5. Semiología Gráfica y Coherencia Semántica del Color</h2>
 <p>Siguiendo a <strong>Bertin</strong> y <strong>ColorBrewer</strong>, al pedirle un mapa a la IA debemos especificar la lógica semántica de la paleta:</p>
 <ul>
@@ -430,7 +491,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <h1>Parte 2. El Vocabulario Técnico para Dirigir a la IA</h1>
 <p>Diccionario de Jerga SIG, WebGL y Quarto</p>
 </section>
-<section id="jerga-de-visualización-web-mapgl-plotly-dt" class="slide level2 smaller">
+<section id="jerga-de-visualización-web-mapgl-plotly-dt" class="slide level2">
 <h2>2.1. Jerga de Visualización Web (<code>mapgl</code>, <code>plotly</code>, <code>DT</code>)</h2>
 <table class="caption-top">
 <colgroup>
@@ -458,7 +519,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Cero Estructural vs.&nbsp;<code>NA</code></strong></td>
-<td style="text-align: left;">Manzanas no residenciales (<code>n_per == 0</code>: <code>419</code> manzanas en Santiago como Parque O’Higgins, Quinta Normal o manzanas comerciales).</td>
+<td style="text-align: left;">Manzanas no residenciales (<code>n_per == 0</code>: <code>419</code> manzanas en Santiago como Parque O’Higgins, Quinta Normal o comercio exclusivo).</td>
 <td style="text-align: left;"><em>“Asigna <code>NA_real_</code> cuando <code>n_per == 0</code>. Impútalo con <code>st_nearest_feature()</code> para no dejar huecos en el mapa, pero promedia por barrio filtrando <code>manzana_habitada == TRUE</code>.”</em></td>
 </tr>
 <tr class="even">
@@ -477,7 +538,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <h1>Parte 3. Disección del Código en los 27 Barrios de Santiago</h1>
 <p>Arquitectura Paso a Paso en R</p>
 </section>
-<section id="cruce-espacial-de-las-1.711-manzanas-con-los-27-barrios" class="slide level2 smaller">
+<section id="cruce-espacial-de-las-1.711-manzanas-con-los-27-barrios" class="slide level2">
 <h2>3.1. Cruce Espacial de las 1.711 Manzanas con los 27 Barrios</h2>
 <p>¿Cómo asignamos cada una de las <code>1.711</code> manzanas del Censo 2024 a uno de los <strong>27 barrios oficiales de Santiago (<code>LIMITE_BARRIOS.shp</code>)</strong> sin errores de borde?</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-label="1"></a><span class="co"># 1. Punto interior garantizado (evita fallos en manzanas con forma de L o U)</span></span>
@@ -497,7 +558,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <span id="cb2-15"><a aria-label="15"></a>  join_barrios<span class="sc">$</span>barrio[idx_na] <span class="ot">&lt;-</span> barrios_stgo_utm<span class="sc">$</span>BARRIO[near_b]</span>
 <span id="cb2-16"><a aria-label="16"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="interpolación-areal-de-veredas-siedu-sobre-manzanas-2024" class="slide level2 smaller">
+<section id="interpolación-areal-de-veredas-siedu-sobre-manzanas-2024" class="slide level2">
 <h2>3.2. Interpolación Areal de Veredas SIEDU sobre Manzanas 2024</h2>
 <p>¿Cómo transferimos el estado de veredas (<code>LB2018_IS40_Calidad_Veredas</code>, medido en 2018) a las <code>1.711</code> manzanas del <strong>Censo 2024</strong> cuando sus geometrías difieren? <strong>“Las manzanas censales mandan”</strong>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-label="1"></a><span class="co"># 1. Intersección geométrica en metros (EPSG:32719)</span></span>
@@ -519,7 +580,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <span id="cb3-17"><a aria-label="17"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb3-18"><a aria-label="18"></a>  <span class="fu">mutate</span>(<span class="at">ind_deterioro_veredas =</span> ((qswalk_pond <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">4</span>) <span class="sc">*</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="función-constructora-de-mapas-crear_mapa_manzana_stgo" class="slide level2 smaller">
+<section id="función-constructora-de-mapas-crear_mapa_manzana_stgo" class="slide level2">
 <h2>3.3. Función Constructora de Mapas (<code>crear_mapa_manzana_stgo</code>)</h2>
 <p>En vez de copiar y pegar 8 veces el código de <code>maplibre()</code>, encapsulamos el diseño en una función reutilizable para las <code>1.711</code> manzanas y <code>27</code> barrios con soporte para unidades (<code>%</code> o <code>años</code>), rangos fijos o por cuantiles, y tooltip estandarizado:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-label="1"></a>crear_mapa_manzana_stgo <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
@@ -542,7 +603,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <span id="cb4-18"><a aria-label="18"></a>    <span class="fu">add_symbol_layer</span>(<span class="at">id =</span> <span class="st">"barrios_labels"</span>, <span class="at">source =</span> barrios_sf, <span class="at">text_field =</span> <span class="fu">c</span>(<span class="st">"get"</span>, <span class="st">"BARRIO"</span>), ...)</span>
 <span id="cb4-19"><a aria-label="19"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="síntesis-multidimensional-de-los-27-barrios-heatmap-z-score" class="slide level2 smaller">
+<section id="síntesis-multidimensional-de-los-27-barrios-heatmap-z-score" class="slide level2">
 <h2>3.4. Síntesis Multidimensional de los 27 Barrios (<code>Heatmap Z-Score</code>)</h2>
 <p>Para comparar en una sola matriz los <strong>27 barrios de Santiago</strong> en variables medidas en <strong>años</strong> (<code>Escolaridad</code>) y en <strong>porcentajes</strong> (<code>Déficit Vivienda</code>, <code>Desocupación</code>, <code>Infraestructura</code>), estandarizamos cada columna en <strong>Puntajes Z (<span class="math inline">\(Z\)</span>-scores)</strong>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a>df_heatmap <span class="ot">&lt;-</span> resumen_barrios <span class="sc">|&gt;</span></span>
@@ -574,7 +635,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <h1>Parte 4. Prompt Engineering y Despliegue Web</h1>
 <p>Cómo pedirle cambios precisos a la IA y publicar en GitHub Pages</p>
 </section>
-<section id="anatomía-de-un-buen-prompt-territorial" class="slide level2 smaller scrollable">
+<section id="anatomía-de-un-buen-prompt-territorial" class="slide level2">
 <h2>4.1. Anatomía de un Buen Prompt Territorial</h2>
 <div class="columns">
 <div class="column" style="width:48%;">
@@ -595,7 +656,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </ol>
 </div></div>
 </section>
-<section id="flujo-de-publicación-en-github-pages-docs" class="slide level2 smaller scrollable">
+<section id="flujo-de-publicación-en-github-pages-docs" class="slide level2">
 <h2>4.2. Flujo de Publicación en GitHub Pages (<code>docs/</code>)</h2>
 <div class="cell" data-reveal="true" data-layout-align="default">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a aria-label="1"></a>flowchart LR</span>
@@ -801,12 +862,17 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
         // The "normal" size of the presentation, aspect ratio will be preserved
         // when the presentation is scaled to fit different resolutions. Can be
         // specified using percentage units.
-        width: 1280,
+        width: 1600,
 
-        height: 720,
+        height: 900,
 
         // Factor of the display size that should remain empty around the content
-        margin: 0.1,
+        margin: 6.0e-2,
+
+        // Bounds for smallest/largest possible scale to apply to content
+        minScale: 0.2,
+
+        maxScale: 2,
 
         math: {
           mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
