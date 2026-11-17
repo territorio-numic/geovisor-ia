@@ -220,7 +220,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 
 <style>
 .reveal {
-  font-size: 25px !important;
+  font-size: 26px !important;
 }
 .reveal .slides section {
   padding-top: 0.15rem !important;
@@ -231,49 +231,57 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
   margin-bottom: 0.35em !important;
 }
 .reveal h2 {
-  font-size: 1.38em !important;
+  font-size: 1.35em !important;
   line-height: 1.18 !important;
-  margin-bottom: 0.4em !important;
+  margin-bottom: 0.38em !important;
   border-bottom: 2px solid rgba(247, 127, 0, 0.6);
-  padding-bottom: 0.16em;
+  padding-bottom: 0.15em;
 }
 .reveal h3 {
-  font-size: 1.08em !important;
-  margin-bottom: 0.25em !important;
+  font-size: 1.06em !important;
+  margin-bottom: 0.24em !important;
   color: #93c5fd !important;
 }
 .reveal p, .reveal li {
-  font-size: 0.88em !important;
-  line-height: 1.36 !important;
-  margin-bottom: 0.28em !important;
+  font-size: 0.86em !important;
+  line-height: 1.35 !important;
+  margin-bottom: 0.26em !important;
 }
 .reveal ul, .reveal ol {
-  margin-bottom: 0.4em !important;
+  margin-bottom: 0.38em !important;
 }
 .reveal table {
-  font-size: 0.78em !important;
-  margin: 0.4em auto !important;
+  font-size: 0.76em !important;
+  margin: 0.38em auto !important;
   width: 100% !important;
 }
 .reveal table th, .reveal table td {
-  padding: 0.36em 0.55em !important;
-  line-height: 1.28 !important;
+  padding: 0.34em 0.52em !important;
+  line-height: 1.26 !important;
 }
 .reveal div.sourceCode {
-  margin: 0.45em 0 !important;
-  border: 1px solid rgba(148, 163, 184, 0.32) !important;
+  margin: 0.4em 0 !important;
+  border: 1px solid rgba(148, 163, 184, 0.35) !important;
   border-radius: 8px !important;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4) !important;
 }
-.reveal pre {
+.reveal pre,
+.reveal pre.sourceCode {
   width: 100% !important;
   margin: 0 !important;
+  font-size: 0.80em !important;
+  line-height: 1.38 !important;
 }
-.reveal pre code {
-  font-size: 0.90em !important;
-  line-height: 1.34 !important;
-  max-height: 540px !important;
-  padding: 0.85em 1.05em !important;
+.reveal .columns pre,
+.reveal .columns pre.sourceCode {
+  font-size: 0.72em !important;
+}
+.reveal pre code,
+.reveal pre.sourceCode code {
+  font-size: 1em !important;
+  line-height: 1.38 !important;
+  max-height: 520px !important;
+  padding: 0.8em 1em !important;
 }
 .reveal .callout {
   font-size: 0.84em !important;
@@ -419,7 +427,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 <section id="sistemas-de-coordenadas-crs-y-códigos-epsg" class="slide level2">
 <h2>1.3. Sistemas de Coordenadas (CRS) y Códigos <code>EPSG</code></h2>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:46%;">
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -459,7 +467,7 @@ Cristóbal Ortiz-Vilches · Núcleo Milenio NUMIC
 </tr>
 </tbody>
 </table>
-</div><div class="column" style="width:50%;">
+</div><div class="column" style="width:54%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a><span class="co"># Proyectar a metros (32719) para calcular</span></span>
 <span id="cb1-2"><a aria-label="2"></a><span class="co"># y luego volver a grados (4326) para mapear</span></span>
 <span id="cb1-3"><a aria-label="3"></a>censo_stgo_utm <span class="ot">&lt;-</span> censo_raw <span class="sc">|&gt;</span></span>
