@@ -1,0 +1,19 @@
+# Ignorar todos los demás archivos de la carpeta 4-reports (SASE_results, reports, slides antiguas, .gdraw, caché)
+/*
+
+# Permitir exclusivamente los archivos del curso geovisor-ia y su sitio compilado en docs/
+!/.gitignore
+!/README.md
+!/_quarto.yml
+!/index.qmd
+!/geovisor-ia_report.qmd
+!/geovisor-ia_slide.qmd
+!/docs/
+!/docs/**
+
+# Excluir archivos temporales dentro de docs/
+/docs/**/*_files/
+/docs/.quarto/
+
+/.quarto/
+**/*.quarto_ipynb

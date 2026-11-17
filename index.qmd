@@ -1,0 +1,40 @@
+---
+title: "Curso: Construcción de Geovisores Territoriales con R, Quarto e IA"
+subtitle: "Fundamentos Cartográficos, Jerga SIG y Prompt Engineering para Ciencias Sociales, Geografía y Políticas Públicas"
+author: "Cristóbal Ortiz-Vilches (Núcleo Milenio NUMIC)"
+date: today
+page-layout: article
+toc: false
+---
+
+Bienvenido/a al portal docente del curso **Construcción de Geovisores Territoriales con R, Quarto e Inteligencia Artificial**, desarrollado en el marco del **Núcleo Milenio en Inseguridad y Cohesión Urbana (NUMIC, Proyecto ANID `NCS2025_047`)**.
+
+Este curso está diseñado para estudiantes e investigadores de **Sociología, Geografía, Ciencia Política, Estudios Urbanos, Trabajo Social y Políticas Públicas** que buscan aprender a construir plataformas web interactivas de análisis socioespacial utilizando herramientas abiertas de **R (`tidyverse`, `sf`, `mapgl`, `plotly`, `DT`)** y **Quarto**, apoyándose en asistentes de Inteligencia Artificial mediante instrucciones técnicamente precisas.
+
+<p style="margin-top: 1.4rem; margin-bottom: 1.6rem;">
+  <a href="geovisor-ia_report.qmd" class="btn btn-primary" role="button" style="margin-right: 0.6rem;">📘 Ir al Manual Completo del Curso (`geovisor-ia_report`)</a>
+  <a href="geovisor-ia_slide.qmd" class="btn btn-outline-primary" role="button" target="_blank">🖥️ Abrir Presentación de Cátedra (`geovisor-ia_slide`)</a>
+</p>
+
+---
+
+### Caso de Estudio del Curso: Los 27 Barrios y 1.711 Manzanas de la Comuna de Santiago
+
+A lo largo del curso trabajamos con un caso empírico real a escala comunal completa: el diagnóstico multidimensional de las **`1.711` manzanas censales** y los **`27` barrios oficiales** de la **comuna de Santiago (`CUT 13101`, `438.981` habitantes)**, integrando cuatro fuentes geoespaciales públicas:
+
+1. **Censo de Población y Vivienda 2024 (INE):** Geometría maestra de manzanas (`Cartografia_censo2024_Pais_Manzanas.parquet`).
+2. **Subdivisión Oficial de los 27 Barrios de Santiago (IMS):** Cartografía poligonal barrial (`LIMITE_BARRIOS.shp`) y su agregación en macro-zonas mediante disolución geométrica (`st_union`).
+3. **Matriz de Bienestar Humano Territorial (MBHT – CIT):** Indicadores de disconfort ambiental y exposición al delito en el espacio público (`CHILE_MBHT.parquet`).
+4. **Catastro SIEDU (INE / MINVU):** Calidad física de veredas (`LB2018_IS40_Calidad_Veredas.gdb`) transferida a las manzanas censales 2024 mediante interpolación areal ponderada por superficie (`st_intersection`).
+
+---
+
+### Estructura de Contenidos
+
+| Módulo | Foco Formativo | Conceptos y Herramientas Clave |
+| :--- | :--- | :--- |
+| **Módulo 1** | **Teoría Geográfica y Cartográfica** | Escala geográfica, Problema de la Unidad Espacial Modificable (MAUP), Falacia Ecológica, *Simple Features* (`sf`), sistemas de coordenadas **`EPSG:32719` (metros)** vs. **`EPSG:4326` (grados)**, topología y semiología gráfica del color. |
+| **Módulo 2** | **Diccionario de Jerga Conceptual y Técnica** | Vocabulario exacto para dirigir a la IA sin ambigüedad: *coropletas, tooltip HTML, hover state, halo perimetral, cero estructural vs. `NA`, interpolación areal ponderada, vecino más cercano (`st_nearest_feature`) y puntajes Z*. |
+| **Módulo 3** | **Disección Práctica del Código en R (27 Barrios de Santiago)** | Explicación paso a paso del código real y **demostración interactiva en vivo** con las `1.711` manzanas y `27` barrios de Santiago (Mapa WebGL `mapgl`, Gráfico de barras `plotly` y Mapa de Calor `Z-Score`). |
+| **Módulo 4** | **Ingeniería de Prompts (*Prompt Engineering*)** | Contraste entre *prompts* ambiguos y *prompts* de precisión técnica, más una **plantilla reutilizable en 6 bloques** para crear o actualizar geovisores sin romper el código. |
+| **Módulo 5** | **Arquitectura Quarto y Despliegue en GitHub Pages** | Configuración de `_quarto.yml`, modo claro/oscuro (`cosmo`/`darkly`), archivo `.nojekyll`, control de peso (`< 100 MiB`) y protección de datos sensibles mediante `.gitignore` por lista blanca. |

@@ -1,0 +1,42 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+    - geovisor-ia_report.qmd
+    - geovisor-ia_slide.qmd
+
+execute:
+  freeze: auto
+
+website:
+  title: "Geovisores Territoriales con R, Quarto e IA"
+  site-url: "https://territorio-numic.github.io/geovisor-ia"
+  repo-url: "https://github.com/territorio-numic/geovisor-ia"
+  search: false
+  page-navigation: true
+  navbar:
+    background: light
+    left:
+      - text: "Inicio"
+        href: index.qmd
+      - text: "Manual del Curso (Reporte)"
+        href: geovisor-ia_report.qmd
+      - text: "Presentación (Slides)"
+        href: geovisor-ia_slide.qmd
+        target: "_blank"
+    right:
+      - icon: github
+        href: https://github.com/territorio-numic/geovisor-ia
+        aria-label: "Repositorio en GitHub"
+  page-footer:
+    left: "Núcleo Milenio en Inseguridad y Cohesión Urbana (NUMIC · NCS2025_047)"
+    right: "Curso Metodológico: R + SIG + Quarto + IA"
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    lang: es
+    toc: true

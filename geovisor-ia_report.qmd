@@ -1,0 +1,712 @@
+---
+title: "Construcción de Geovisores Territoriales con R, Quarto e Inteligencia Artificial"
+subtitle: "Guía Teórica, Cartográfica y de Prompt Engineering Aplicada a los 27 Barrios de la Comuna de Santiago"
+author: "Cristóbal Ortiz-Vilches (Núcleo Milenio NUMIC)"
+date: today
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido del Curso"
+    page-layout: full
+    code-copy: true
+    code-overflow: wrap
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+```{=html}
+<style>
+.concept-box {
+  border-left: 4px solid #2563eb;
+  background: rgba(37, 99, 235, 0.06);
+  padding: 0.85rem 1.1rem;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 1rem;
+}
+.prompt-bad {
+  border-left: 4px solid #dc2626;
+  background: rgba(220, 38, 38, 0.07);
+  padding: 0.85rem 1.1rem;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 0.85rem;
+}
+.prompt-good {
+  border-left: 4px solid #16a34a;
+  background: rgba(22, 163, 74, 0.07);
+  padding: 0.85rem 1.1rem;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 1rem;
+}
+body.quarto-dark .maplibregl-popup-content,
+body.quarto-dark .maplibregl-ctrl,
+body.quarto-dark .mapboxgl-ctrl {
+  color: #1f2937 !important;
+}
+body.quarto-dark .dataTables_wrapper {
+  color: #e2e8f0 !important;
+}
+</style>
+```
+
+## Introducción: ¿Por qué construir Geovisores Interactivos en Ciencias Sociales?
+
+En disciplinas como la **Sociología Urbana, la Geografía Humana, la Ciencia Política y las Políticas Públicas**, los fenómenos sociales —la desigualdad socioeconómica, la segregación residencial, la exposición al delito, el envejecimiento demográfico o el deterioro de la infraestructura pública— **no se distribuyen de manera uniforme en el territorio**.
+
+Históricamente, la investigación social ha comunicado estos hallazgos mediante tablas estáticas o mapas impresos en PDF donde el lector no puede consultar qué ocurre en una manzana específica ni comparar un barrio con el promedio comunal. Hoy, la combinación de tres herramientas abiertas permite superar esa barrera sin necesidad de ser ingeniero de software:
+
+1. **R (`tidyverse`, `sf`, `mapgl`, `plotly`, `DT`):** para procesar datos censales y territoriales con rigor estadístico y reproducibilidad.
+2. **Quarto (`.qmd`):** para compilar en un único archivo código, narrativa académica, mapas WebGL y gráficos interactivos, publicables gratuitamente en **GitHub Pages**.
+3. **Asistentes de Inteligencia Artificial (LLMs / Agentes de Código):** que permiten acelerar drásticamente la escritura de código en R y HTML/CSS **siempre y cuando el investigador o estudiante domine la teoría geográfica y la jerga técnica exacta para darle instrucciones precisas**.
+
+> **Objetivo central de este curso:** Entregar los fundamentos teóricos, cartográficos y el vocabulario técnico preciso (*SIG, EPSG, Simple Features, interpolación areal, tooltip, coropletas, puntajes Z*) a partir del análisis territorial de los **`27` barrios oficiales y las `1.711` manzanas censales de la comuna de Santiago (`CUT 13101`)**, para que puedas diseñar y dirigir a una IA en la construcción de portales territoriales de estándar profesional.
+
+---
+
+## Módulo 1. Fundamentos de Teoría Geográfica y Cartográfica
+
+Antes de escribir código o redactar un *prompt* para la IA, todo análisis territorial requiere resolver cuatro decisiones teórico-metodológicas fundamentales.
+
+### 1.1. Escala Geográfica, Nivel de Agregación y el Problema MAUP
+
+En el análisis territorial chileno trabajamos habitualmente con distintas escalas anidadas dentro de la ciudad:
+
+| Unidad Espacial | Ejemplo en la Comuna de Santiago | Tamaño típico | Uso principal y limitaciones |
+| :--- | :--- | :--- | :--- |
+| **Comuna (`CUT`)** | Santiago (`13101`) | `438.981` hab. | Gestión municipal agregada; oculta la heterogeneidad interna. |
+| **Agrupación / Macro-zona (`AGRP`)** | Áreas Vecinales (`AV1` a `AV10`) o Zonas Territoriales | `20.000` – `76.000` hab. | Coordinación inter-barrial y planificación sectorial. |
+| **Barrio Municipal (`BARRIO`)** | **`27` barrios oficiales de Santiago** (Yungay, Brasil, San Borja, Lastarria/Santa Lucía, Matta Sur, Franklin, etc.) | `2.300` – `52.600` hab. | Identidad vecinal, comparación meso-espacial y diagnóstico barrial. |
+| **Manzana Censal (`MANZENT`)** | **`1.711` manzanas en Santiago** (`1.292` habitadas) | `50` – `800` hab. | **Máxima desagregación pública (Censo 2024):** permite detectar micro-bolsones de vulnerabilidad, allegamiento o deterioro peatonal. |
+
+::: {.callout-important}
+#### El Problema de la Unidad Espacial Modificable (MAUP) y la Falacia Ecológica
+En geografía cuantitativa, el **MAUP (*Modifiable Areal Unit Problem*, Openshaw 1984)** advierte que los resultados estadísticos cambian según **cómo se trazan las fronteras** (efecto de zonificación) y **a qué escala se agregan los datos** (efecto de escala). Inferir el comportamiento de una manzana o de un hogar a partir del promedio comunal constituye una **falacia ecológica**.
+
+Por ejemplo, la comuna de Santiago presenta un déficit cuantitativo de vivienda promedio de `14,7%`, pero al desagregar por **barrio** observamos desde `5,4%` en Santa Lucía Forestal hasta `24,9%` en San Vicente o `20,9%` en Franklin; y al bajar a escala de **manzana censal**, encontramos manzanas específicas que superan el `50%`. Por eso, el diseño de nuestros visores combina **ambas escalas en pestañas paralelas**: el **mapa interactivo de las `1.711` manzanas** (detalle micro-espacial) y el **gráfico comparado de los `27` barrios** (síntesis meso-espacial).
+:::
+
+---
+
+### 1.2. Modelos de Datos SIG y *Simple Features* (`sf`)
+
+Un **Sistema de Información Geográfica (SIG / GIS)** vincula **atributos estadísticos** (población, escolaridad, delitos, calidad de veredas) con una **geometría explícita en el espacio**. En R, el estándar moderno es el paquete **`sf` (*Simple Features*)**, donde una base de datos espacial es un `data.frame` o `tibble` del `tidyverse` que posee una columna especial de geometría (`geometry` o `shape`):
+
+- **`POINT` (Punto):** Equipamientos puntuales o el **punto interior de una manzana** (`st_point_on_surface()`).
+- **`LINESTRING` (Línea):** Ejes viales, ciclovías o bordes perimetrales de barrios.
+- **`POLYGON` / `MULTIPOLYGON` (Polígono):** Las `1.711` manzanas censales y los `27` barrios de Santiago.
+
+#### Tres formatos geoespaciales que debes distinguir al hablar con la IA
+
+1. **Shapefile (`.shp`):** Formato clásico compuesto por varios archivos (`.shp`, `.dbf`, `.shx`, `.prj`). Se lee con `sf::st_read("ruta/LIMITE_BARRIOS.shp")`.
+2. **File Geodatabase de ESRI (`.gdb`):** Carpeta contenedora con múltiples capas internas; permite filtrar con consultas SQL al cargar (`sf::st_read("ruta.gdb", query = "SELECT * FROM capa WHERE CUT = 13101")`). Ejemplo: cartografía de veredas **SIEDU**.
+3. **GeoParquet (`.parquet`):** Formato columnar de alto rendimiento (`arrow` + `sfarrow`). Lee cientos de miles de manzanas en una fracción de segundo ocupando un 80% menos de disco que un Shapefile. Ejemplo: `Cartografia_censo2024_Pais_Manzanas.parquet` y `CHILE_MBHT.parquet`.
+
+---
+
+### 1.3. Sistemas de Referencia de Coordenadas (CRS) y Códigos `EPSG`
+
+Uno de los errores más frecuentes al programar con IA es confundir sistemas de coordenadas. La Tierra es un geoide tridimensional; para medir distancias y superficies reales, o para dibujar sobre un mapa web interactivo, necesitamos un **CRS (*Coordinate Reference System*)** identificado por su código **`EPSG`**:
+
+<div class="concept-box">
+**Regla de Oro de los Códigos `EPSG` en Chile Continental (Huso 19 Sur):**
+
+1. **`EPSG:32719` (WGS 84 / UTM zone 19S — Coordenadas Proyectadas en Metros):**
+   - **Unidad:** Metros ($\text{m}$).
+   - **Cuándo usarlo:** **SIEMPRE** para operaciones geométricas y físicas: calcular superficie en $\text{m}^2$ o hectáreas (`st_area()`), calcular densidad residencial ($\text{hab/ha}$), intersectar polígonos (`st_intersection()`), buscar el vecino más cercano (`st_nearest_feature()`) o extraer puntos interiores (`st_point_on_surface()`).
+2. **`EPSG:4326` (WGS 84 — Coordenadas Geográficas en Grados):**
+   - **Unidad:** Grados decimales de Latitud y Longitud (ej. Plaza de Armas de Santiago $\approx -33.437^\circ\text{S}, -70.650^\circ\text{O}$).
+   - **Cuándo usarlo:** **SIEMPRE** al momento final de entregar la capa a un visor web interactivo (`mapgl::maplibre()`, `leaflet`), ya que los motores WebGL del navegador exigen coordenadas `EPSG:4326`.
+</div>
+
+---
+
+### 1.4. Topología y las 4 Operaciones Espaciales Clave en la Comuna de Santiago
+
+Cuando cruzamos fuentes distintas en la comuna de Santiago (Censo 2024 del INE, los 27 Barrios de la Municipalidad de Santiago, la Matriz MBHT del CIT y el catastro de veredas SIEDU del MINVU/INE), **las geometrías provienen de distintos años y no calzan exactamente entre sí**. Para integrarlos en R utilizamos cuatro operaciones topológicas:
+
+```{mermaid}
+flowchart LR
+    A["1. Reparación Topológica<br/>st_make_valid()"] --> B["2. Punto Interior Garantizado<br/>st_point_on_surface()"]
+    B --> C["3. Asignación de los 27 Barrios<br/>st_join(st_intersects) + st_nearest_feature()"]
+    A --> D["4. Interpolación Areal Ponderada<br/>st_intersection() + st_area()"]
+    C --> E["Capa Maestra de 1.711 Manzanas<br/>mzn_stgo_sf (EPSG:4326)"]
+    D --> E
+```
+
+1. **Reparación topológica (`st_make_valid()`):** Los polígonos oficiales suelen traer vértices duplicados o bordes que se cruzan a sí mismos (*self-intersections*). Ejecutar `st_make_valid()` al cargar cada capa evita errores en los cruces espaciales.
+2. **Punto en superficie (`st_point_on_surface()`) vs. Centroide (`st_centroid()`):** Si una manzana tiene forma de "U" o "L", su centro de gravedad matemático (`st_centroid()`) puede caer **fuera** del polígono (en la calle o en el barrio de enfrente). En cambio, `st_point_on_surface()` garantiza matemáticamente que el punto quede **dentro** de la manzana al asignarle uno de los `27` barrios de Santiago.
+3. **Disolución geométrica (`st_union()`):** Permite fusionar barrios contiguos en unidades territoriales mayores cuando el análisis lo requiere (por ejemplo, agrupar barrios por Área Vecinal `AGRP` o en Zonas de una Mesa Territorial mediante `group_by(zona) |> summarise(geometry = st_union(geometry))`).
+4. **Interpolación areal ponderada por superficie (`st_intersection()`):** Cuando la cartografía de veredas SIEDU (2018) no coincide con los límites de las manzanas del Censo 2024, **las manzanas censales mandan**. Intersectamos ambas capas en `EPSG:32719`, calculamos el área en $\text{m}^2$ de cada fragmento resultante y obtenemos el promedio ponderado según la proporción de superficie que ocupa cada fragmento dentro de la manzana censal.
+
+---
+
+### 1.5. Semiología Gráfica y Coherencia Semántica del Color
+
+Siguiendo los principios de **Jacques Bertin (*Sémiologie Graphique*)** y **Cynthia Brewer (*ColorBrewer*)**, un mapa coroplético debe respetar tres principios visuales que siempre debes especificarle a la IA:
+
+- **Coherencia semántica del color:** El color comunica significado intuitivo antes de leer la leyenda.
+  - Si mapeas **Disconfort Ambiental** (falta de vegetación y exposición a islas de calor), **nunca uses verde oscuro para los valores altos**, porque el lector asocia el verde con vegetación. Debe usarse verde (`#41ab5d`) para el bajo disconfort (ej. Parque Forestal / Santa Lucía) y tonos ocres/terracota (`#993404`) para el alto disconfort.
+  - Si construyes un **Mapa de Calor (Heatmap) de Criticidad** para comparar los `27` barrios de Santiago, todas las columnas deben apuntar en la misma dirección normativa: el **rojo (`#b2182b`)** debe representar siempre mayor déficit o urgencia, y el **azul (`#2166ac`)** menor urgencia. Si una variable es positiva (como los **Años de Escolaridad**), debes invertir el signo de su puntaje estandarizado ($Z = -\text{scale}(x)$) únicamente en el color del Heatmap.
+- **Cortes por percentiles (`P2–P50–P98`) vs. Rango fijo (`0–100%`):**
+  - Los cortes por percentiles (`quantile(probs = c(0.02, 0.50, 0.98))`) maximizan el contraste entre las `1.711` manzanas cuando una variable se concentra en un rango estrecho (ej. desocupación entre `3%` y `10%`), evitando que un único valor extremo deje todo el mapa de un solo color.
+  - El **rango fijo (`0%` a `100%`)** se utiliza cuando el indicador tiene una escala teórica completa de `0%` a `100%` que se desea mostrar íntegra (como en Seguridad o Deterioro de Veredas).
+
+---
+
+## Módulo 2. Diccionario de Jerga Conceptual y Técnica para Hablar con la IA
+
+Cuando un estudiante o investigador le pide a la IA *"hazme un mapa bonito de Santiago con información al pasar el mouse"*, la IA toma decisiones arbitrarias. En cambio, cuando utilizas la **jerga técnica precisa**, controlas exactamente el resultado.
+
+| Término Técnico (Jerga) | ¿Qué es exactamente? | Cómo pedírselo a la IA en un *Prompt* |
+| :--- | :--- | :--- |
+| **Mapa Coroplético (*Choropleth*)** | Mapa de polígonos coloreados según una variable cuantitativa continua o por tramos. | *"Genera un mapa coroplético de las 1.711 manzanas de Santiago usando `add_fill_layer()` con interpolación continua."* |
+| **Tooltip / Cuadro Emergente HTML** | Recuadro flotante que aparece al pasar el cursor (*hover*) sobre una manzana o barra. | *"Construye una columna `tooltip_html` con formato HTML/CSS inline que muestre Barrio, ID de manzana, población, densidad y el indicador comparado con su Barrio y con Santiago."* |
+| **Hover Options** | Cambio visual instantáneo del polígono cuando el cursor pasa por encima. | *"En `add_fill_layer()`, configura `hover_options = list(fill_opacity = 0.98, fill_outline_color = '#111111')`."* |
+| **Halo Perimetral y Tipográfico** | Trazo blanco exterior detrás de una línea o texto para garantizar legibilidad sobre cualquier color de fondo. | *"Agrega `text_halo_color = '#ffffff'` y `text_halo_width = 1.4` en `add_symbol_layer()` para los nombres de los 27 barrios de Santiago."* |
+| **Cero Estructural vs. `NA`** | Manzana real pero sin población residente (`n_per == 0`: `419` manzanas en Santiago correspondientes a parques, oficinas o comercio exclusivo). | *"Recodifica a `NA_real_` los indicadores cuando `n_per == 0`; impútalos con `st_nearest_feature()` para la continuidad visual del mapa, pero calcula los promedios de los 27 barrios filtrando `manzana_habitada == TRUE`."* |
+| **Diferencial en Puntos Porcentuales (`pp`)** | Resta aritmética entre dos porcentajes ($\text{Manzana} - \text{Promedio}$), distinta de una variación porcentual relativa. | *"Calcula la brecha respecto al promedio del barrio y de la comuna de Santiago en puntos porcentuales (`±X,X pp`) con signo explícito."* |
+| **Puntaje Z (*Z-Score*)** | Estandarización estadística $Z_i = \frac{x_i - \bar{x}}{s_x}$ que expresa cuántas desviaciones estándar se aleja cada uno de los 27 barrios respecto a la media comunal ($0$). | *"Estandariza las 8 dimensiones mediante `scale()` acotado entre `-2` y `+2 DE` para comparar los 27 barrios de Santiago en un mismo Heatmap."* |
+| **Panel Tabset (`::: {.panel-tabset}`)** | Componente nativo de Quarto que organiza mapas y gráficos en pestañas clicables sin recargar la página. | *"Encapsula cada dimensión en un bloque `::: {.panel-tabset}` con pestañas para el Mapa por Manzana y el Gráfico de Barras por Barrio."* |
+
+---
+
+## Módulo 3. Disección Práctica del Código Real en los 27 Barrios de Santiago
+
+A continuación revisamos paso a paso el flujo completo en R para las **`1.711` manzanas y los `27` barrios de la comuna de Santiago (`CUT 13101`)**, ejecutando los visores interactivos directamente en este documento.
+
+### Paso 1. Carga de Paquetes y Cartografía Oficial de los 27 Barrios de Santiago
+
+Cargamos el Shapefile oficial de los `27` barrios de la comuna de Santiago (`LIMITE_BARRIOS.shp`), lo proyectamos a **`EPSG:32719` (metros)** y reparamos su topología con `st_make_valid()`:
+
+```{r demo-step1-barrios}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(sf)
+  library(arrow)
+  library(sfarrow)
+  library(mapgl)
+  library(plotly)
+  library(htmltools)
+  library(scales)
+  library(DT)
+})
+
+options(scipen = 999)
+
+# 1. Carga de los 27 Barrios oficiales de la comuna de Santiago en UTM 19S (EPSG:32719)
+barrios_stgo_utm <- st_read(
+  "G:/Mi unidad/research-projects/A-data-infra-rda/sig-shapes-chile/division-administrativa/LÍMITE_BARRIOS_STGO/LIMITE_BARRIOS.shp",
+  quiet = TRUE
+) |>
+  st_transform(32719) |>
+  st_make_valid()
+
+# 2. Versión en WGS84 (EPSG:4326) lista para MapLibre WebGL
+barrios_stgo <- st_transform(barrios_stgo_utm, 4326)
+```
+
+> **Nota sobre agrupaciones territoriales (`st_union`):** Cuando un proyecto requiere agrupar barrios en macro-zonas (por ejemplo, unir barrios por Área Vecinal `AGRP` o en Zonas de una Mesa Territorial), basta con aplicar `group_by(zona) |> summarise(geometry = st_union(geometry)) |> st_make_valid()`, generando una nueva capa de contornos sin editar archivos manualmente en un SIG de escritorio.
+
+---
+
+### Paso 2. Geometría Maestra Censal (`1.711` Manzanas), Densidad (`hab/ha`), CIT e Interpolación Areal SIEDU
+
+En este bloque integramos las tres fuentes de nivel manzana sobre toda la comuna de Santiago (`cut == 13101`):
+
+1. **Censo 2024 (`censo_stgo_utm`):** Calculamos en `EPSG:32719` el área en hectáreas (`st_area(shape) / 10000`) y la densidad residencial (`n_per / area_hectareas`).
+2. **Matriz de Bienestar Humano Territorial (`mbht_stgo_utm`):** Extraemos las dimensiones ambiental (`dim_amb`) y de seguridad (`dim_seg`) del CIT.
+3. **Interpolación Areal Ponderada de Veredas (`st_intersection`):** Intersectamos los polígonos de veredas del catastro SIEDU 2018 con las `1.711` manzanas del Censo 2024 y ponderamos la nota de cada fragmento (`1 = Excelente` a `5 = No existe`) según su superficie intersectada:
+
+$$\text{qswalk\_pond}_i = \frac{\sum_j \text{qswalk}_{ij} \cdot \text{Área}_{ij}}{\sum_j \text{Área}_{ij}}, \qquad \text{Deterioro Veredas (\%)} = \left(\frac{\text{qswalk\_pond}_i - 1}{4}\right) \times 100$$
+
+```{r demo-step2-censo-veredas}
+# 1. Censo 2024 a nivel de manzana para toda la comuna de Santiago (CUT == 13101, 1.711 manzanas)
+censo_stgo_utm <- read_parquet(
+  "G:/Mi unidad/research-projects/A-data-infra-rda/censo-chile/censo-2024/geodatos-2024/Cartografia_censo2024_Pais_Manzanas.parquet"
+) |>
+  rename_with(tolower) |>
+  filter(cut == 13101) |>
+  mutate(cod_mzn = as.character(manzent)) |>
+  select(
+    cod_mzn, cut, comuna, n_per, n_hog, n_vp,
+    n_ocupado, n_desocupado, n_fuera_fuerza_trabajo,
+    prom_escolaridad18, n_analfabet,
+    n_deficit_cuantitativo, n_viv_hacinadas, n_hog_allegados, n_tenencia_arrendada_sin_contrato,
+    n_cise_rec_independientes, n_cise_rec_trabajador_no_remunerado,
+    n_inmigrantes, n_pueblos_orig, n_afrodescendencia,
+    n_edad_0_5, n_edad_6_13, n_edad_60_mas, prom_edad,
+    shape
+  ) |>
+  st_as_sf(crs = 4326) |>
+  st_transform(32719) |>
+  st_make_valid() |>
+  mutate(
+    area_m2        = as.numeric(sf::st_area(shape)),
+    area_hectareas = area_m2 / 10000,
+    densidad_mzn   = if_else(area_hectareas > 0, n_per / area_hectareas, NA_real_)
+  )
+
+# 2. Matriz de Bienestar Humano Territorial (CIT - MBHT) para Santiago (13101)
+mbht_stgo_utm <- st_read_parquet(
+  "G:/Mi unidad/research-projects/A-data-infra-rda/sig-shapes-chile/MBHT_15112022/CHILE_MBHT.parquet"
+) |>
+  rename_with(tolower) |>
+  filter(cod_com == 13101, manz_en != "RURAL") |>
+  st_as_sf(crs = 4326) |>
+  st_transform(32719) |>
+  st_make_valid()
+
+# 3. Interpolación areal ponderada de calidad de veredas SIEDU sobre las 1.711 manzanas Censo 2024
+gdb_siedu_path <- "G:/Mi unidad/research-projects/A-data-infra-rda/sig-shapes-chile/siedu-chile/Cartografia_SIEDU_1ra_medicion/20211028_CARTOGRAFIA_SIEDU_LB2018.gdb"
+
+swalk_stgo_utm <- st_read(
+  gdb_siedu_path,
+  query = "SELECT * FROM LB2018_IS40_Calidad_Veredas WHERE CUT = 13101",
+  quiet = TRUE
+) |>
+  mutate(
+    qswalk = case_when(
+      VEREDAS == "EXCELENTE" ~ 1,
+      VEREDAS == "BUENO"     ~ 2,
+      VEREDAS == "REGULAR"   ~ 3,
+      VEREDAS == "MALO"      ~ 4,
+      VEREDAS == "NO EXISTE" ~ 5,
+      TRUE ~ NA_real_
+    )
+  ) |>
+  drop_na(qswalk) |>
+  st_make_valid() |>
+  st_transform(32719)
+
+veredas_mzn_ponderada <- suppressWarnings(
+  st_intersection(
+    swalk_stgo_utm |> select(qswalk),
+    censo_stgo_utm |> select(cod_mzn)
+  )
+) |>
+  mutate(area_fragmento = as.numeric(st_area(Shape))) |>
+  st_drop_geometry() |>
+  group_by(cod_mzn) |>
+  summarise(
+    qswalk_pond = sum(qswalk * area_fragmento, na.rm = TRUE) / sum(area_fragmento, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+---
+
+### Paso 3. Asignación de los 27 Barrios, Cálculo de las 8 Dimensiones e Imputación Espacial
+
+Asignamos a cada una de las `1.711` manzanas su barrio oficial mediante su punto interior (`st_point_on_surface()`), calculamos las **8 dimensiones** del diagnóstico comunal, aplicamos imputación por vecino más cercano (`st_nearest_feature()`) para las manzanas no habitadas en el mapa y resumimos los promedios de los **27 barrios de Santiago**:
+
+```{r demo-step3-joins-imputacion}
+# 1. Asignación de cada manzana a uno de los 27 barrios de Santiago por punto interior
+centroides_mzn <- st_point_on_surface(censo_stgo_utm |> select(cod_mzn))
+
+join_barrios <- st_join(
+  centroides_mzn,
+  barrios_stgo_utm |> select(barrio = BARRIO),
+  join = st_intersects
+)
+
+if (any(is.na(join_barrios$barrio))) {
+  idx_na <- which(is.na(join_barrios$barrio))
+  near_b <- st_nearest_feature(centroides_mzn[idx_na, ], barrios_stgo_utm)
+  join_barrios$barrio[idx_na] <- barrios_stgo_utm$BARRIO[near_b]
+}
+
+join_mbht <- st_join(
+  centroides_mzn,
+  mbht_stgo_utm |> select(dim_seg, dim_amb),
+  join = st_intersects
+) |>
+  st_drop_geometry() |>
+  group_by(cod_mzn) |>
+  summarise(across(c(dim_seg, dim_amb), ~ mean(.x, na.rm = TRUE)), .groups = "drop")
+
+# 2. Función de imputación por vecino más cercano (sf::st_nearest_feature)
+imputar_vecino_cercano <- function(sf_obj, vars_imputar, puntos_utm) {
+  df_out <- sf_obj
+  for (v in vars_imputar) {
+    na_mask <- is.na(df_out[[v]])
+    if (any(na_mask) && any(!na_mask)) {
+      idx_near <- st_nearest_feature(puntos_utm[na_mask, ], puntos_utm[!na_mask, ])
+      df_out[[v]][na_mask] <- df_out[[v]][!na_mask][idx_near]
+    }
+  }
+  return(df_out)
+}
+
+# 3. Construcción de las 8 dimensiones sobre las 1.711 manzanas de Santiago
+mzn_stgo_sf <- censo_stgo_utm |>
+  st_transform(4326) |>
+  left_join(st_drop_geometry(join_barrios), by = "cod_mzn") |>
+  left_join(join_mbht, by = "cod_mzn") |>
+  left_join(veredas_mzn_ponderada, by = "cod_mzn") |>
+  mutate(
+    manzana_habitada      = n_per > 0,
+    n_pea                 = n_ocupado + n_desocupado,
+    prom_escolaridad18    = if_else(n_per > 0 & prom_escolaridad18 > 0, prom_escolaridad18, NA_real_),
+    pct_analfabetismo     = if_else(n_per > 0, (n_analfabet / n_per) * 100, NA_real_),
+    pct_deficit_cuant     = if_else(n_vp > 0, (n_deficit_cuantitativo / n_vp) * 100, NA_real_),
+    tasa_hacinamiento     = if_else(n_vp > 0, (n_viv_hacinadas / n_vp) * 100, NA_real_),
+    pct_allegamiento      = if_else(n_hog > 0, (n_hog_allegados / n_hog) * 100, NA_real_),
+    pct_arriendo_informal = if_else(n_hog > 0, (n_tenencia_arrendada_sin_contrato / n_hog) * 100, NA_real_),
+    ind_disconfort_amb    = (1 - dim_amb) * 100,
+    ind_inseguridad_del   = (1 - dim_seg) * 100,
+    tasa_desocupacion     = if_else(n_pea > 0, (n_desocupado / n_pea) * 100, NA_real_),
+    pct_inmigrantes       = if_else(n_per > 0, (n_inmigrantes / n_per) * 100, NA_real_),
+    pct_pueblos_orig      = if_else(n_per > 0, (n_pueblos_orig / n_per) * 100, NA_real_),
+    pct_afro              = if_else(n_per > 0, (n_afrodescendencia / n_per) * 100, NA_real_),
+    pct_adulto_mayor      = if_else(n_per > 0, (n_edad_60_mas / n_per) * 100, NA_real_),
+    ind_deterioro_veredas = ((qswalk_pond - 1) / 4) * 100
+  ) |>
+  mutate(across(
+    c(starts_with("pct_"), starts_with("tasa_"), starts_with("ind_"), prom_escolaridad18, qswalk_pond),
+    ~ if_else(is.finite(.x), .x, NA_real_)
+  )) |>
+  imputar_vecino_cercano(
+    c(
+      "prom_escolaridad18", "pct_analfabetismo", "pct_deficit_cuant",
+      "tasa_hacinamiento", "pct_allegamiento", "pct_arriendo_informal",
+      "ind_disconfort_amb", "ind_inseguridad_del", "tasa_desocupacion",
+      "pct_inmigrantes", "pct_pueblos_orig", "pct_afro",
+      "pct_adulto_mayor", "qswalk_pond", "ind_deterioro_veredas"
+    ),
+    centroides_mzn
+  ) |>
+  mutate(
+    cat_veredas = case_when(
+      qswalk_pond < 1.5 ~ "Excelente",
+      qswalk_pond < 2.5 ~ "Buena",
+      qswalk_pond < 3.5 ~ "Regular",
+      qswalk_pond < 4.5 ~ "Mala",
+      TRUE              ~ "Inexistente"
+    )
+  )
+
+# 4. Tabla resumen de los 27 Barrios de la comuna de Santiago
+resumen_barrios <- mzn_stgo_sf |>
+  st_drop_geometry() |>
+  group_by(barrio) |>
+  summarise(
+    n_manzanas            = n(),
+    n_manzanas_hab        = sum(manzana_habitada, na.rm = TRUE),
+    poblacion_total       = sum(n_per, na.rm = TRUE),
+    densidad_media        = mean(densidad_mzn[manzana_habitada], na.rm = TRUE),
+    prom_escolaridad18    = mean(prom_escolaridad18[manzana_habitada], na.rm = TRUE),
+    pct_deficit_cuant     = mean(pct_deficit_cuant[n_vp > 0], na.rm = TRUE),
+    tasa_hacinamiento     = mean(tasa_hacinamiento[n_vp > 0], na.rm = TRUE),
+    pct_allegamiento      = mean(pct_allegamiento[n_hog > 0], na.rm = TRUE),
+    pct_arriendo_informal = mean(pct_arriendo_informal[n_hog > 0], na.rm = TRUE),
+    ind_disconfort_amb    = mean(ind_disconfort_amb, na.rm = TRUE),
+    ind_inseguridad_del   = mean(ind_inseguridad_del, na.rm = TRUE),
+    tasa_desocupacion     = mean(tasa_desocupacion[manzana_habitada], na.rm = TRUE),
+    pct_inmigrantes       = mean(pct_inmigrantes[manzana_habitada], na.rm = TRUE),
+    pct_adulto_mayor      = mean(pct_adulto_mayor[manzana_habitada], na.rm = TRUE),
+    ind_deterioro_veredas = mean(ind_deterioro_veredas, na.rm = TRUE),
+    qswalk_pond           = mean(qswalk_pond, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  mutate(
+    cat_veredas = case_when(
+      qswalk_pond < 1.5 ~ "Excelente",
+      qswalk_pond < 2.5 ~ "Buena",
+      qswalk_pond < 3.5 ~ "Regular",
+      qswalk_pond < 4.5 ~ "Mala",
+      TRUE              ~ "Inexistente"
+    )
+  )
+```
+
+---
+
+### Paso 4. Demostración en Vivo: Geovisor de las `1.711` Manzanas y `27` Barrios de Santiago
+
+A continuación puedes explorar en vivo las tres piezas fundamentales de visualización construidas con el código anterior sobre **toda la comuna de Santiago (`27` barrios y `1.711` manzanas)**:
+
+::: {.panel-tabset}
+
+#### 1. Mapa WebGL de las 1.711 Manzanas (`mapgl`)
+
+```{r demo-live-map}
+fmt_num <- function(x, digits = 1) {
+  format(round(x, digits), big.mark = ".", decimal.mark = ",", nsmall = digits, trim = TRUE)
+}
+
+prom_stgo_viv <- mean(mzn_stgo_sf$pct_deficit_cuant[mzn_stgo_sf$n_vp > 0], na.rm = TRUE)
+
+mzn_mapa_stgo <- mzn_stgo_sf |>
+  left_join(
+    resumen_barrios |> select(barrio, barrio_viv = pct_deficit_cuant),
+    by = "barrio"
+  ) |>
+  mutate(
+    diff_barrio   = pct_deficit_cuant - barrio_viv,
+    signo_barrio  = if_else(diff_barrio >= 0, paste0("+", fmt_num(diff_barrio, 1)), fmt_num(diff_barrio, 1)),
+    diff_stgo     = pct_deficit_cuant - prom_stgo_viv,
+    signo_stgo    = if_else(diff_stgo >= 0, paste0("+", fmt_num(diff_stgo, 1)), fmt_num(diff_stgo, 1)),
+    barrio_titulo = str_to_title(barrio),
+    tooltip_html  = paste0(
+      "<div style='font-family: system-ui, sans-serif; font-size: 12px; line-height: 1.42; padding: 6px 8px; min-width: 245px; color: #1f2937;'>",
+      "<div style='font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 2px;'>Barrio: ", barrio, "</div>",
+      "<div style='font-size: 11px; color: #4b5563; margin-bottom: 6px;'>",
+      "Manzana: <strong>", cod_mzn, "</strong><br>",
+      "Población: <strong>", fmt_num(n_per, 0), " hab.</strong> | Viviendas: <strong>", fmt_num(n_vp, 0), "</strong> | Hogares: <strong>", fmt_num(n_hog, 0), "</strong><br>",
+      "Densidad Residencial: <strong>", fmt_num(densidad_mzn, 1), " hab/ha</strong>",
+      "</div>",
+      "<div style='background: #f8fafc; border-left: 3px solid #ea580c; padding: 5px 7px; margin-bottom: 6px; border-radius: 3px;'>",
+      "<span style='font-size: 11px; color: #374151;'>Déficit Cuantitativo de Vivienda:</span><br>",
+      "<strong style='font-size: 15px; color: #111827;'>", fmt_num(pct_deficit_cuant, 1), "%</strong><br>",
+      "<span style='font-size: 11px; color: #4b5563;'>Promedio Barrio (", barrio_titulo, "): <strong>", fmt_num(barrio_viv, 1), "%</strong> (", signo_barrio, " pp)</span><br>",
+      "<span style='font-size: 11px; color: #4b5563;'>Promedio Santiago: <strong>", fmt_num(prom_stgo_viv, 1), "%</strong> (", signo_stgo, " pp)</span>",
+      "</div>",
+      "<div style='font-size: 11px; color: #444;'>",
+      "• Viviendas Hacinadas: <strong>", fmt_num(tasa_hacinamiento, 1), "%</strong><br>",
+      "• Hogares Allegados: <strong>", fmt_num(pct_allegamiento, 1), "%</strong><br>",
+      "• Arriendo sin Contrato: <strong>", fmt_num(pct_arriendo_informal, 1), "%</strong>",
+      "</div>",
+      "</div>"
+    )
+  ) |>
+  select(cod_mzn, pct_deficit_cuant, tooltip_html, shape)
+
+cortes_viv <- as.numeric(quantile(mzn_mapa_stgo$pct_deficit_cuant, probs = c(0.02, 0.50, 0.98), na.rm = TRUE))
+paleta_viv <- c("#fcfdbf", "#fb9906", "#3b0f70")
+
+mapa_stgo_demo <- maplibre(bounds = barrios_stgo, style = carto_style("positron")) |>
+  add_fill_layer(
+    id                 = "mzn_fill_layer",
+    source             = mzn_mapa_stgo,
+    fill_color         = interpolate(column = "pct_deficit_cuant", values = cortes_viv, stops = paleta_viv),
+    fill_opacity       = 0.84,
+    fill_outline_color = "rgba(255, 255, 255, 0.28)",
+    tooltip            = "tooltip_html",
+    hover_options      = list(fill_opacity = 0.98, fill_outline_color = "#111111")
+  ) |>
+  add_line_layer(
+    id           = "barrios_halo",
+    source       = barrios_stgo,
+    line_color   = "#ffffff",
+    line_width   = 2.6,
+    line_opacity = 0.65
+  ) |>
+  add_line_layer(
+    id           = "barrios_outline",
+    source       = barrios_stgo,
+    line_color   = "#1e293b",
+    line_width   = 1.3,
+    line_opacity = 0.85
+  ) |>
+  add_symbol_layer(
+    id              = "barrios_labels",
+    source          = barrios_stgo,
+    text_field      = c("get", "BARRIO"),
+    text_size       = 9.8,
+    text_color      = "#0f172a",
+    text_halo_color = "#ffffff",
+    text_halo_width = 1.5
+  ) |>
+  add_legend(
+    legend_title = "Déficit Cuantitativo (%)",
+    type         = "continuous",
+    values       = round(cortes_viv, 1),
+    colors       = paleta_viv,
+    layer_id     = "mzn_fill_layer",
+    position     = "bottom-right",
+    interactive  = TRUE
+  ) |>
+  add_navigation_control(position = "top-right") |>
+  add_fullscreen_control(position = "top-right") |>
+  add_reset_control(position = "top-right")
+
+browsable(div(style = "width: 100%; height: 68vh; border: 1px solid #ddd; border-radius: 6px;", mapa_stgo_demo))
+```
+
+#### 2. Promedios Comparados de los 27 Barrios (`plotly`)
+
+```{r demo-live-plotly}
+prom_comunal_barrios <- mean(resumen_barrios$pct_deficit_cuant, na.rm = TRUE)
+
+df_barrios_demo <- resumen_barrios |>
+  mutate(
+    brecha_com      = pct_deficit_cuant - prom_comunal_barrios,
+    signo_com       = if_else(brecha_com >= 0, paste0("+", fmt_num(brecha_com, 1)), fmt_num(brecha_com, 1)),
+    barrio_ordenado = fct_reorder(barrio, pct_deficit_cuant),
+    nivel_alerta    = if_else(
+      pct_deficit_cuant > prom_comunal_barrios,
+      "Sobre la media comunal de Santiago",
+      "Bajo o igual a la media comunal"
+    ),
+    texto_hover = paste0(
+      "<b>Barrio: ", barrio, "</b><br>",
+      "Déficit Cuantitativo: <b>", fmt_num(pct_deficit_cuant, 1), "%</b><br>",
+      "Media Comunal Santiago: ", fmt_num(prom_comunal_barrios, 1), "% (", signo_com, " pp)<br>",
+      "Manzanas: ", n_manzanas, " (", n_manzanas_hab, " habitadas) | Población: ", fmt_num(poblacion_total, 0), " hab.<br>",
+      "Densidad Media: ", fmt_num(densidad_media, 1), " hab/ha<br>",
+      "• Hacinamiento: ", fmt_num(tasa_hacinamiento, 1), "%<br>",
+      "• Allegamiento: ", fmt_num(pct_allegamiento, 1), "%<br>",
+      "• Arriendo sin Contrato: ", fmt_num(pct_arriendo_informal, 1), "%"
+    )
+  )
+
+p_demo <- ggplot(df_barrios_demo, aes(x = barrio_ordenado, y = pct_deficit_cuant)) +
+  geom_col(aes(fill = nivel_alerta, text = texto_hover), width = 0.74) +
+  geom_hline(yintercept = prom_comunal_barrios, linetype = "dashed", color = "#111827", linewidth = 0.7) +
+  coord_flip() +
+  scale_fill_manual(
+    values = c(
+      "Sobre la media comunal de Santiago" = "#e65100",
+      "Bajo o igual a la media comunal"    = "#457b9d"
+    ),
+    name = ""
+  ) +
+  scale_y_continuous(labels = function(x) paste0(x, "%"), expand = expansion(mult = c(0, 0.08))) +
+  labs(
+    title = "Vivienda: Déficit Cuantitativo en los 27 Barrios de la Comuna de Santiago (%)",
+    x = NULL,
+    y = "Déficit Cuantitativo de Vivienda (línea punteada = media comunal)"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(panel.grid.major.y = element_blank())
+
+ggplotly(p_demo, tooltip = "text", height = 600) |>
+  layout(legend = list(orientation = "h", x = 0, y = -0.12)) |>
+  config(displaylogo = FALSE)
+```
+
+#### 3. Síntesis Multidimensional de los 27 Barrios (`Heatmap Z-Score`)
+
+```{r demo-live-heatmap}
+df_heatmap_stgo <- resumen_barrios |>
+  select(
+    barrio,
+    `1. Escolaridad (años)` = prom_escolaridad18,
+    `2. Déficit Vivienda`   = pct_deficit_cuant,
+    `3. Disconfort Amb.`    = ind_disconfort_amb,
+    `4. Exposición Delito`  = ind_inseguridad_del,
+    `5. Desocupación`       = tasa_desocupacion,
+    `6. Migración`          = pct_inmigrantes,
+    `7. Envejecimiento`     = pct_adulto_mayor,
+    `8. Infraestructura`    = ind_deterioro_veredas
+  ) |>
+  pivot_longer(cols = -barrio, names_to = "dimension", values_to = "valor_raw") |>
+  group_by(dimension) |>
+  mutate(
+    media_dim  = mean(valor_raw, na.rm = TRUE),
+    z_raw      = as.numeric(scale(valor_raw)),
+    z_score    = if_else(dimension == "1. Escolaridad (años)", -z_raw, z_raw),
+    z_clip     = pmin(pmax(z_score, -2), 2),
+    unidad_dim = if_else(dimension == "1. Escolaridad (años)", " años", "%")
+  ) |>
+  ungroup() |>
+  mutate(
+    dimension    = factor(dimension, levels = unique(dimension)),
+    barrio_orden = fct_reorder(barrio, z_score, .fun = mean),
+    hover_matriz = paste0(
+      "<b>Barrio: ", barrio, "</b><br>",
+      "Dimensión: <b>", dimension, "</b><br>",
+      "Promedio Barrio: <b>", fmt_num(valor_raw, 1), unidad_dim, "</b><br>",
+      "Media Comunal Santiago: ", fmt_num(media_dim, 1), unidad_dim, "<br>",
+      "Criticidad Relativa (Puntaje Z): <b>", if_else(z_score >= 0, "+", ""), fmt_num(z_score, 2), " DE</b>"
+    )
+  )
+
+p_heat_stgo <- ggplot(df_heatmap_stgo, aes(x = dimension, y = barrio_orden, fill = z_clip, text = hover_matriz)) +
+  geom_tile(color = "white", linewidth = 0.45) +
+  scale_fill_gradient2(
+    low = "#2166ac", mid = "#f7f7f7", high = "#b2182b",
+    midpoint = 0, limits = c(-2, 2), name = "Criticidad\n(Puntaje Z)"
+  ) +
+  labs(
+    title = "Mapa de Calor Multidimensional de los 27 Barrios de la Comuna de Santiago",
+    x = NULL, y = NULL
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    plot.title  = element_text(face = "bold", size = 12),
+    axis.text.x = element_text(angle = 20, hjust = 1, face = "bold"),
+    panel.grid  = element_blank()
+  )
+
+ggplotly(p_heat_stgo, tooltip = "text", height = 650) |>
+  layout(margin = list(l = 160, r = 20, t = 50, b = 85)) |>
+  config(displaylogo = FALSE)
+```
+
+:::
+
+---
+
+## Módulo 4. Ingeniería de Prompts (*Prompt Engineering*) para Geovisores en R
+
+El secreto para que una IA (como Gemini, Claude o ChatGPT) genere un reporte territorial libre de errores sintácticos y topológicos radica en **sustituir descripciones ambiguas por especificaciones estructuradas**.
+
+### 4.1. Comparación: Prompts Ambiguos vs. Prompts de Precisión Técnica
+
+<div class="prompt-bad">
+**❌ Ejemplo de Prompt Ambiguo (Produce errores de CRS, `NaN` y mapas ilegibles):**
+*"Hazme un mapa interactivo en R con los datos del Censo 2024 de la comuna de Santiago y las veredas, que muestre los 27 barrios de Santiago y que al pasar el mouse se vea la información de cada manzana. Haz también un gráfico de barras y un mapa de calor al final."*
+</div>
+
+<div class="prompt-good">
+**✅ Ejemplo de Prompt Técnicamente Especificado (Estándar NUMIC):**
+*"Genera un documento Quarto `.qmd` en R (`tidyverse`, `sf`, `mapgl`, `plotly`, `DT`) para analizar los 27 barrios y las 1.711 manzanas de la comuna de Santiago (`cut == 13101`) aplicando estas reglas:*
+1. **Geometría Maestra y CRS:** Usa las manzanas del Censo 2024 (`Cartografia_censo2024_Pais_Manzanas.parquet`) como geometría maestra. Realiza todos los cálculos espaciales en `EPSG:32719` (`st_make_valid()`) y transforma a `EPSG:4326` solo antes de renderizar en `mapgl::maplibre()`.
+2. **Subdivisión de los 27 Barrios:** Superpón la capa `LIMITE_BARRIOS.shp` con `add_line_layer()` y nombres con halo blanco en `add_symbol_layer()`, sin relleno opaco para no bloquear la inspección de cada manzana con el cursor.
+3. **Interpolación Areal Ponderada:** Cruza la capa `LB2018_IS40_Calidad_Veredas` (`.gdb`) con las manzanas censales usando `st_intersection()`, calcula el área de cada fragmento con `st_area()` y obtén el promedio ponderado por superficie por manzana (`qswalk_pond`).
+4. **Ceros Estructurales e Imputación:** Cuando `n_per == 0`, asigna `NA_real_` a las tasas censales. Impútalas con `st_nearest_feature()` sobre puntos interiores (`st_point_on_surface()`) para la visualización continua del mapa, pero calcula los promedios de los 27 barrios en `resumen_barrios` filtrando estrictamente `manzana_habitada == TRUE`.
+5. **Diseño del Tooltip:** En el cuadro emergente HTML, muestra en la segunda línea solo `Manzana: <cod_mzn>`, seguido de población, viviendas, hogares y densidad residencial (`hab/ha`). Bajo el indicador principal, muestra `Promedio Barrio (<Nombre en str_to_title>)` y `Promedio Santiago` con su brecha en `pp`.
+6. **Síntesis en Puntajes Z:** En el Heatmap final de los 27 barrios, estandariza las 8 dimensiones con `scale()` acotado a `[-2, 2]`. Invierte el signo únicamente de `Escolaridad` (`-z_raw`) para que el color rojo (`#b2182b`) represente siempre mayor criticidad."*
+</div>
+
+---
+
+### 4.2. Plantilla de 6 Bloques para Solicitar un Geovisor a la IA
+
+Cuando inicies tu propio proyecto territorial (en una tesis, práctica profesional o laboratorio de investigación), copia y completa esta estructura de **6 bloques**:
+
+```markdown
+1. ROL Y STACK TECNOLÓGICO:
+   Trabaja en R usando tidyverse, sf, arrow/sfarrow, mapgl (MapLibre), plotly y DT
+   dentro de un documento Quarto (.qmd) con formato HTML (theme: light: cosmo, dark: darkly).
+
+2. FUENTES Y REGLA DE PREEMINENCIA GEOMÉTRICA:
+   - Capa maestra de polígonos: [ruta y formato, ej. Censo 2024 .parquet, filtro cut == 13101].
+   - Capas secundarias a cruzar: [rutas .shp / .gdb / .parquet, ej. LIMITE_BARRIOS.shp].
+   - Regla: realiza toda operación espacial en EPSG:32719 (aplicando st_make_valid())
+     y transforma a EPSG:4326 para maplibre().
+
+3. MÉTODO DE CRUCE ESPACIAL E IMPUTACIÓN:
+   - Para asignar cada manzana a uno de los 27 barrios: usa st_point_on_surface() + st_join(st_intersects).
+   - Para cruzar polígonos desfasados (ej. veredas SIEDU): usa interpolación areal ponderada con st_intersection() y st_area().
+   - Para manzanas sin población (n_per == 0): imputa con st_nearest_feature() en el mapa, pero exclúyelas del promedio barrial.
+
+4. OPERACIONALIZACIÓN DE DIMENSIONES Y PALETAS:
+   - Lista las dimensiones, su fórmula exacta (numerador / denominador * 100), su unidad (% o años),
+     si usa cortes por cuantiles (P2-P50-P98) o rango fijo (0-100%), y el sentido semántico de la paleta de colores.
+
+5. ESTRUCTURA DEL TOOLTIP Y PESTAÑAS (.panel-tabset):
+   - Pestaña 1 (Mapa): especifica qué campos van en el encabezado del tooltip, en la caja destacada (comparación barrial y comunal) y en las viñetas secundarias.
+   - Pestaña 2 (Gráfico de barras ggplotly): especifica el ordenamiento de los 27 barrios y las líneas verticales punteadas de referencia.
+
+6. SÍNTESIS Y DESPLIEGUE EN GITHUB PAGES:
+   - Incluye un Heatmap de los 27 barrios estandarizado en Puntajes Z (con dirección unificada de criticidad) y una tabla DT::datatable con alertas cromáticas (Media y Media + 0.5 DE).
+   - Compila hacia docs/ mediante _quarto.yml, añade docs/.nojekyll y protege los datos brutos en .gitignore.
+```
+
+---
+
+## Módulo 5. Publicación Web Autónoma con Quarto y GitHub Pages
+
+Una vez compilado tu documento `.qmd`, la publicación en un repositorio de GitHub (`https://territorio-numic.github.io/geovisor-ia/`) requiere cuatro elementos en la carpeta del proyecto:
+
+1. **`_quarto.yml`:** Define `project: type: website` y `output-dir: docs`, integrando la barra de navegación superior y el selector de tema claro/oscuro (`light: cosmo`, `dark: darkly`).
+2. **`docs/.nojekyll`:** Archivo vacío indispensable para que el servidor de GitHub Pages sirva directamente las librerías JavaScript (`site_libs/`) generadas por Quarto para `MapLibre`, `Plotly`, `DataTables` y `RevealJS`.
+3. **`.gitignore` por Lista Blanca (*Allowlist*):** Utiliza `/*` al inicio de `.gitignore` y habilita únicamente los archivos del sitio web (`!/_quarto.yml`, `!/index.qmd`, `!/geovisor-ia_report.qmd`, `!/geovisor-ia_slide.qmd`, `!/docs/**`), evitando subir bases de datos brutas o documentos internos al repositorio público.
+4. **Control de peso (`< 100 MiB`):** Antes de pasar el objeto `sf` a `maplibre()`, selecciona únicamente las columnas requeridas por el mapa (`select(cod_mzn, variable, tooltip_html, shape)`), reduciendo en más de un 70% el peso del archivo HTML final.
